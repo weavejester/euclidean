@@ -24,6 +24,11 @@
   clojure.lang.Counted
   (count [_] 3)
 
+  clojure.lang.Sequential
+
+  clojure.lang.Seqable
+  (seq [_] (list x y z))
+
   clojure.lang.ILookup
   (valAt [v i]
     (.valAt v i nil))
