@@ -1,13 +1,18 @@
 (ns euclidean.math.vector
   (:refer-clojure :exclude [vector]))
 
+(defprotocol Vector
+  (add [v1 v2]))
+
 (definterface Coords3D
   (^double getX [])
   (^double getY [])
   (^double getZ []))
 
-(defprotocol Vector
-  (add [v1 v2]))
+(defn- add-3d [^Vector3D v1 ^Vector3D v2]
+  (Vector3D. (+ (.getX v1) (.getX v2))
+             (+ (.getY v1) (.getY v2))
+             (+ (.getZ v1) (.getZ v2))))
 
 (deftype Vector3D [^double x ^double y ^double z]
   Coords3D
@@ -16,10 +21,7 @@
   (getZ [_] z)
 
   Vector
-  (add [_ v]
-    (Vector3D. (+ x (.getX ^Coords3D v))
-               (+ y (.getY ^Coords3D v))
-               (+ z (.getZ ^Coords3D v))))
+  (add [v1 v2] (add-3d v1 v2))
 
   clojure.lang.Counted
   (count [_] 3)
