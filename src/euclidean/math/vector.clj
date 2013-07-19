@@ -1,7 +1,26 @@
 (ns euclidean.math.vector
   (:refer-clojure :exclude [vector]))
 
-(deftype Vector3D [x y z]
+(definterface Coords3D
+  (^double getX [])
+  (^double getY [])
+  (^double getZ []))
+
+(defprotocol Vector
+  (add [v1 v2]))
+
+(deftype Vector3D [^double x ^double y ^double z]
+  Coords3D
+  (getX [_] x)
+  (getY [_] y)
+  (getZ [_] z)
+
+  Vector
+  (add [_ v]
+    (Vector3D. (+ x (.getX ^Coords3D v))
+               (+ y (.getY ^Coords3D v))
+               (+ z (.getZ ^Coords3D v))))
+
   clojure.lang.ILookup
   (valAt [v i]
     (.valAt v i nil))
@@ -20,13 +39,8 @@
          (= y (v 1))
          (= z (v 2)))))
 
-(defn vector [x y z]
+(defn vector [^double x ^double y ^double z]
   (Vector3D. x y z))
-
-(defn add [v1 v2]
-  (vector (+ (v1 0) (v2 0))
-          (+ (v1 1) (v2 1))
-          (+ (v1 2) (v2 2))))
 
 (defn into-vector [v]
   (apply vector v))
