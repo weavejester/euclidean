@@ -158,8 +158,8 @@
   "Turn a collection of numbers into a math vector."
   (apply vector coll))
 
-(defmethod print-method Vector2D [v ^java.io.Writer w]
+(defmethod print-method Vector2D [^Vector2D v ^java.io.Writer w]
   (.write w (.toString v)))
 
-(defmethod print-method Vector3D [v ^java.io.Writer w]
+(defmethod print-method Vector3D [^Vector3D v ^java.io.Writer w]
   (.write w (.toString v)))
