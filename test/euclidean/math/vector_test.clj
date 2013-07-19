@@ -4,7 +4,7 @@
 
 (deftest test-data-readers
   (is (= (pr-str (v/vector 1 2 3))
-         "#math/vector [1 2 3]")))
+         "#math/vector [1.0 2.0 3.0]")))
 
 (deftest test-equality
   (is (= (v/vector 1 2 3) (v/vector 1 2 3)))
@@ -12,8 +12,8 @@
 
 (deftest test-lookup
   (let [v (v/vector 1 2 3)]
-    (is (= (get v 0) 1))
-    (is (= (v 1) 2))))
+    (is (= (get v 0) 1.0))
+    (is (= (v 1) 2.0))))
 
 (deftest test-add
   (let [v1 (v/vector 1 2 3)
