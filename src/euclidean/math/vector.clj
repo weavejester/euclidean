@@ -86,6 +86,10 @@
   (Vector2D. (* (.getX v) f)
              (* (.getY v) f)))
 
+(defn- div-2d [^Vector2D v ^double f]
+  (Vector2D. (/ (.getX v) f)
+             (/ (.getY v) f)))
+
 (defn- magnitude-2d [^Vector2D v]
   (let [x (.getX v)
         y (.getY v)]
@@ -106,6 +110,11 @@
              (* (.getY v) f)
              (* (.getZ v) f)))
 
+(defn- div-3d [^Vector3D v ^double f]
+  (Vector3D. (/ (.getX v) f)
+             (/ (.getY v) f)
+             (/ (.getZ v) f)))
+
 (defn- magnitude-3d [^Vector3D v]
   (let [x (.getX v)
         y (.getY v)
@@ -116,6 +125,7 @@
   (add [v1 v2] "Add two vectors together.")
   (sub [v1 v2] "Subject the first vector from the second.")
   (mult [v f] "Multiply all values in a vector by a number.")
+  (div [v f] "Divide all values in a vector by a number.")
   (magnitude [v] "The magnitude (length) of the vector."))
 
 (extend-protocol Vector
@@ -123,11 +133,13 @@
   (add [v1 v2] (add-2d v1 v2))
   (sub [v1 v2] (sub-2d v1 v2))
   (mult [v f] (mult-2d v f))
+  (div [v f] (div-2d v f))
   (magnitude [v] (magnitude-2d v))
   Vector3D
   (add [v1 v2] (add-3d v1 v2))
   (sub [v1 v2] (sub-3d v1 v2))
   (mult [v f] (mult-3d v f))
+  (div [v f] (div-3d v f))
   (magnitude [v] (magnitude-3d v)))
 
 (defn vector
