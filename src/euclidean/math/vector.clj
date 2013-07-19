@@ -23,6 +23,11 @@
 (defn vector [x y z]
   (Vector3D. x y z))
 
+(defn add [v1 v2]
+  (vector (+ (v1 0) (v2 0))
+          (+ (v1 1) (v2 1))
+          (+ (v1 2) (v2 2))))
+
 (defn into-vector [v]
   (apply vector v))
 
