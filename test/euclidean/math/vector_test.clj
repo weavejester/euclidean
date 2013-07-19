@@ -25,3 +25,9 @@
   (let [v (v/vector 1 2 3)]
     (is (= (v/mult v 2)
            (v/vector 2 4 6)))))
+
+(deftest test-magnitude
+  (is (= (v/magnitude (v/vector 1 0 0)) 1.0))
+  (is (= (v/magnitude (v/vector 0 -1 0)) 1.0))
+  (is (= (v/magnitude (v/vector 1 2 3))
+         (Math/sqrt 14.0))))

@@ -82,6 +82,11 @@
   (Vector2D. (* (.getX v) f)
              (* (.getY v) f)))
 
+(defn- magnitude-2d [^Vector2D v]
+  (let [x (.getX v)
+        y (.getY v)]
+    (Math/sqrt (+ (* x x) (* y y)))))
+
 (defn- add-3d [^Vector3D v1 ^Vector3D v2]
   (Vector3D. (+ (.getX v1) (.getX v2))
              (+ (.getY v1) (.getY v2))
@@ -92,17 +97,26 @@
              (* (.getY v) f)
              (* (.getZ v) f)))
 
+(defn- magnitude-3d [^Vector3D v]
+  (let [x (.getX v)
+        y (.getY v)
+        z (.getZ v)]
+    (Math/sqrt (+ (* x x) (* y y) (* z z)))))
+
 (defprotocol Vector
   (add [v1 v2] "Add two vectors together.")
-  (mult [v f] "Multiply all values in a vector by a number."))
+  (mult [v f] "Multiply all values in a vector by a number.")
+  (magnitude [v] "The magnitude (length) of the vector."))
 
 (extend-protocol Vector
   Vector2D
   (add [v1 v2] (add-2d v1 v2))
   (mult [v f] (mult-2d v f))
+  (magnitude [v] (magnitude-2d v))
   Vector3D
   (add [v1 v2] (add-3d v1 v2))
-  (mult [v f] (mult-3d v f)))
+  (mult [v f] (mult-3d v f))
+  (magnitude [v] (magnitude-3d v)))
 
 (defn vector
   "Create a new 2D or 3D math vector."
