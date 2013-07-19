@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [vector]))
 
 (defprotocol Vector
-  (add [v1 v2]))
+  (add [v1 v2] "Add two vectors together."))
 
 (definterface Coords2D
   (^double getX [])
@@ -93,13 +93,15 @@
          (= z (v 2)))))
 
 (defn vector
+  "Create a new 2D or 3D math vector."
   ([^double x ^double y]
      (Vector2D. x y))
   ([^double x ^double y ^double z]
      (Vector3D. x y z)))
 
-(defn into-vector [v]
-  (apply vector v))
+(defn into-vector [coll]
+  "Turn a collection of numbers into a math vector."
+  (apply vector coll))
 
 (defmethod print-method Vector2D [v ^java.io.Writer w]
   (.write w (.toString v)))
