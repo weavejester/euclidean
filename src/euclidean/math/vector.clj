@@ -21,6 +21,9 @@
                (+ y (.getY ^Coords3D v))
                (+ z (.getZ ^Coords3D v))))
 
+  clojure.lang.Counted
+  (count [_] 3)
+
   clojure.lang.ILookup
   (valAt [v i]
     (.valAt v i nil))
