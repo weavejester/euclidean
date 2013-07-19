@@ -21,6 +21,12 @@
     (is (= (v/add v1 v2)
            (v/vector 5 7 9)))))
 
+(deftest test-add
+  (let [v1 (v/vector 4 5 6)
+        v2 (v/vector 3 2 1)]
+    (is (= (v/sub v1 v2)
+           (v/vector 1 3 5)))))
+
 (deftest test-mult
   (let [v (v/vector 1 2 3)]
     (is (= (v/mult v 2)
