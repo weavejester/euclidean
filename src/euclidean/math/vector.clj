@@ -2,7 +2,8 @@
   (:refer-clojure :exclude [vector]))
 
 (defprotocol Vector
-  (add [v1 v2] "Add two vectors together."))
+  (add [v1 v2] "Add two vectors together.")
+  (mult [v f] "Multiply all values in a vector by a number."))
 
 (definterface Coords2D
   (^double getX [])
@@ -12,6 +13,10 @@
   (Vector2D. (+ (.getX v1) (.getX v2))
              (+ (.getY v1) (.getY v2))))
 
+(defn- mult-2d [^Vector2D v ^double f]
+  (Vector2D. (* (.getX v) f)
+             (* (.getY v) f)))
+
 (deftype Vector2D [^double x ^double y]
   Coords2D
   (getX [_] x)
@@ -19,6 +24,7 @@
 
   Vector
   (add [v1 v2] (add-2d v1 v2))
+  (mult [v f] (mult-2d v f))
 
   clojure.lang.Counted
   (count [_] 2)
@@ -56,6 +62,11 @@
              (+ (.getY v1) (.getY v2))
              (+ (.getZ v1) (.getZ v2))))
 
+(defn- mult-3d [^Vector3D v ^double f]
+  (Vector3D. (* (.getX v) f)
+             (* (.getY v) f)
+             (* (.getZ v) f)))
+
 (deftype Vector3D [^double x ^double y ^double z]
   Coords3D
   (getX [_] x)
@@ -64,6 +75,7 @@
 
   Vector
   (add [v1 v2] (add-3d v1 v2))
+  (mult [v f] (mult-3d v f))
 
   clojure.lang.Counted
   (count [_] 3)

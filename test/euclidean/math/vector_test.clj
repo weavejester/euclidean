@@ -20,3 +20,8 @@
         v2 (v/vector 4 5 6)]
     (is (= (v/add v1 v2)
            (v/vector 5 7 9)))))
+
+(deftest test-mult
+  (let [v (v/vector 1 2 3)]
+    (is (= (v/mult v 2)
+           (v/vector 2 4 6)))))
