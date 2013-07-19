@@ -42,3 +42,9 @@
   (is (= (v/magnitude (v/vector 0 -1 0)) 1.0))
   (is (= (v/magnitude (v/vector 1 2 3))
          (Math/sqrt 14.0))))
+
+(deftest test-normalize
+  (is (= (v/normalize (v/vector 1 0 0))
+         (v/vector 1 0 0)))
+  (is (= (v/normalize (v/vector 0 3 4))
+         (v/vector 0 0.6 0.8))))

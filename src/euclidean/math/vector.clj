@@ -142,6 +142,11 @@
   (div [v f] (div-3d v f))
   (magnitude [v] (magnitude-3d v)))
 
+(defn normalize
+  "Normalize a vector by dividing by its magnitude."
+  [v]
+  (div v (magnitude v)))
+
 (defn vector
   "Create a new 2D or 3D math vector."
   ([^double x ^double y]
