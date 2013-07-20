@@ -1,4 +1,5 @@
 (ns euclidean.math.quaternion
+  (:refer-clojure :exclude [identity])
   (:require [euclidean.math.vector :as v])
   (:import euclidean.math.vector.Vector3D))
 
@@ -119,6 +120,10 @@
 
 (defn quaternion [^double x ^double y ^double z ^double w]
   (Quaternion. x y z w))
+
+(def identity
+  "The identity quaternion."
+  (quaternion 0 0 0 1))
 
 (defn into-quaternion [coll]
   (apply quaternion coll))
