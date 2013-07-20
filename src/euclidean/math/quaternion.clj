@@ -95,6 +95,28 @@
   [^double angle]
   (from-angle-normal-axis angle (v/vector 0 0 1)))
 
+(defn norm
+  "Compute the norm of the quaternion."
+  [^Quaternion q]
+  (let [x (.getX q)
+        y (.getY q)
+        z (.getZ q)
+        w (.getW q)]
+    (+ (* x x) (* y y) (* z z) (* w w))))
+
+(defn axes
+  "Return the three axes of the quaternion."
+  [^Quaternion q]
+  (let [n  (norm q),  s  (if (> n 0) (/ 2.0 n) 0.0)
+        x  (.getX q), y  (.getY q), z  (.getZ q), w  (.getW q)
+        xs (* x s),   ys (* y s),   zs (* z s),   ws (* w s)
+        xx (* x xs),  xy (* x ys),  xz (* x zs),  xw (* x ws)
+        yy (* y ys),  yz (* y zs),  yw (* y ws)
+        zz (* z zs),  zw (* z ws)]
+    [(Vector3D. (- 1.0 (+ yy zz)) (+ xy zw) (- xz yw))
+     (Vector3D. (- xy zw) (- 1.0 (+ xx zz)) (+ yz xw))
+     (Vector3D. (+ xz yw) (- yz xw) (- 1.0 (+ xx yy)))]))
+
 (defn quaternion [^double x ^double y ^double z ^double w]
   (Quaternion. x y z w))
 

@@ -48,3 +48,13 @@
     (is (= (q/rotate (q/quaternion 0 0 0 1) v) v))
     (is (approx= (q/rotate (q/quaternion 0.707 0 0 0.707) v)
                  (v/vector 1 -3 2)))))
+
+(deftest test-norm
+  (is (= (q/norm (q/quaternion 1 2 3 4))
+         30.0)))
+
+(deftest test-axis
+  (let [[x y z] (q/axes (q/quaternion 0 0 0 1))]
+    (is (= x [1.0 0.0 0.0]))
+    (is (= y [0.0 1.0 0.0]))
+    (is (= z [0.0 0.0 1.0]))))
