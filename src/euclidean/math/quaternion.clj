@@ -35,7 +35,7 @@
   (toString [_]
     (str "#math/quaternion [" x " " y  " " z " " w "]"))
   (equals [_ q]
-    (and (= (count q) q)
+    (and (= (count q) 4)
          (= x (q 0))
          (= y (q 1))
          (= z (q 2))
