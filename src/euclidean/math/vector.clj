@@ -82,13 +82,17 @@
   (Vector2D. (- (.getX v1) (.getY v2))
              (- (.getX v1) (.getY v2))))
 
-(defn- mult-2d [^Vector2D v ^double f]
+(defn- mult-2d [^Vector2D v1 ^Vector2D v2]
+  (Vector2D. (* (.getX v1) (.getX v2))
+             (* (.getY v1) (.getY v2))))
+
+(defn- div-2d [^Vector2D v1 ^Vector2D v2]
+  (Vector2D. (/ (.getX v1) (.getX v2))
+             (/ (.getY v1) (.getY v2))))
+
+(defn- scale-2d [^Vector2D v ^double f]
   (Vector2D. (* (.getX v) f)
              (* (.getY v) f)))
-
-(defn- div-2d [^Vector2D v ^double f]
-  (Vector2D. (/ (.getX v) f)
-             (/ (.getY v) f)))
 
 (defn- magnitude-2d [^Vector2D v]
   (let [x (.getX v)
@@ -105,15 +109,20 @@
              (- (.getY v1) (.getY v2))
              (- (.getZ v1) (.getZ v2))))
 
-(defn- mult-3d [^Vector3D v ^double f]
+(defn- mult-3d [^Vector3D v1 ^Vector3D v2]
+  (Vector3D. (* (.getX v1) (.getX v2))
+             (* (.getY v1) (.getY v2))
+             (* (.getZ v1) (.getZ v2))))
+
+(defn- div-3d [^Vector3D v1 ^Vector3D v2]
+  (Vector3D. (/ (.getX v1) (.getX v2))
+             (/ (.getY v1) (.getY v2))
+             (/ (.getZ v1) (.getZ v2))))
+
+(defn- scale-3d [^Vector3D v ^double f]
   (Vector3D. (* (.getX v) f)
              (* (.getY v) f)
              (* (.getZ v) f)))
-
-(defn- div-3d [^Vector3D v ^double f]
-  (Vector3D. (/ (.getX v) f)
-             (/ (.getY v) f)
-             (/ (.getZ v) f)))
 
 (defn- magnitude-3d [^Vector3D v]
   (let [x (.getX v)
@@ -124,28 +133,31 @@
 (defprotocol Vector
   (add [v1 v2] "Add two vectors together.")
   (sub [v1 v2] "Subject the first vector from the second.")
-  (mult [v f] "Multiply all values in a vector by a number.")
-  (div [v f] "Divide all values in a vector by a number.")
+  (mult [v1 v2] "Multiply one vector by another.")
+  (div [v1 v2] "Divide one vector by another.")
+  (scale [v f] "Scale a vector by a factor.")
   (magnitude [v] "The magnitude (length) of the vector."))
 
 (extend-protocol Vector
   Vector2D
   (add [v1 v2] (add-2d v1 v2))
   (sub [v1 v2] (sub-2d v1 v2))
-  (mult [v f] (mult-2d v f))
-  (div [v f] (div-2d v f))
+  (mult [v1 v2] (mult-2d v1 v2))
+  (div [v1 v2] (div-2d v1 v2))
+  (scale [v f] (scale-2d v f))
   (magnitude [v] (magnitude-2d v))
   Vector3D
   (add [v1 v2] (add-3d v1 v2))
   (sub [v1 v2] (sub-3d v1 v2))
-  (mult [v f] (mult-3d v f))
-  (div [v f] (div-3d v f))
+  (mult [v1 v2] (mult-3d v1 v2))
+  (div [v1 v2] (div-3d v1 v2))
+  (scale [v f] (scale-3d v f))
   (magnitude [v] (magnitude-3d v)))
 
 (defn normalize
   "Normalize a vector by dividing by its magnitude."
   [v]
-  (div v (magnitude v)))
+  (scale v (/ 1.0 (magnitude v))))
 
 (defn vector
   "Create a new 2D or 3D math vector."
