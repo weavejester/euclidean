@@ -1,5 +1,5 @@
 (ns euclidean.math.quaternion
-  (:require euclidean.math.vector)
+  (:require [euclidean.math.vector :as v])
   (:import euclidean.math.vector.Vector3D))
 
 (definterface Coords4D
@@ -64,6 +64,36 @@
         (- (* qz qz vy)) (* qw qw vy)   (* -2 qx qw vz)  (- (* qx qx vy)))
      (+ (* 2 qx qz vx)   (* 2 qy qz vy) (* qz qz vz)     (* -2 qw qy vx)
         (- (* qy qy vz)) (* 2 qw qx vy) (- (* qx qx vz)) (* qw qw vz))]))
+
+(defn from-angle-normal-axis
+  "Create a quaternion from an angle in radians and a normalized axis vector."
+  [^double angle ^Vector3D axis]
+  (let [half-angle (* angle 0.5)
+        half-sine  (Math/sin half-angle)]
+    (Quaternion. (* half-sine (.getX axis))
+                 (* half-sine (.getY axis))
+                 (* half-sine (.getZ axis))
+                 (Math/cos half-angle))))
+
+(defn from-angle-axis
+  "Create a quaternion from an angle in radians and an arbitrary axis vector."
+  [^double angle ^Vector3D axis]
+  (from-angle-normal-axis angle (v/normalize axis)))
+
+(defn pitch
+  "Create a quaternion representing a pitch rotation by an angle in radians."
+  [^double angle]
+  (from-angle-normal-axis angle (v/vector 1 0 0)))
+
+(defn yaw
+  "Create a quaternion representing a yaw rotation by an angle in radians."
+  [^double angle]
+  (from-angle-normal-axis angle (v/vector 0 1 0)))
+
+(defn roll
+  "Create a quaternion representing a roll rotation by an angle in radians."
+  [^double angle]
+  (from-angle-normal-axis angle (v/vector 0 0 1)))
 
 (defn quaternion [^double x ^double y ^double z ^double w]
   (Quaternion. x y z w))
