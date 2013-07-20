@@ -84,17 +84,17 @@
 (defn pitch
   "Create a quaternion representing a pitch rotation by an angle in radians."
   [^double angle]
-  (from-angle-normal-axis angle (v/vector 1 0 0)))
+  (from-angle-normal-axis angle (Vector3D. 1 0 0)))
 
 (defn yaw
   "Create a quaternion representing a yaw rotation by an angle in radians."
   [^double angle]
-  (from-angle-normal-axis angle (v/vector 0 1 0)))
+  (from-angle-normal-axis angle (Vector3D. 0 1 0)))
 
 (defn roll
   "Create a quaternion representing a roll rotation by an angle in radians."
   [^double angle]
-  (from-angle-normal-axis angle (v/vector 0 0 1)))
+  (from-angle-normal-axis angle (Vector3D. 0 0 1)))
 
 (defn norm
   "Compute the norm of the quaternion."
