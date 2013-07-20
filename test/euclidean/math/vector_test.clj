@@ -47,6 +47,10 @@
   (is (= (v/dot (v/vector 1 2 3) (v/vector 4 5 6))
          32.0)))
 
+(deftest test-cross
+  (is (= (v/cross (v/vector 1 2 4) (v/vector 3 5 6))
+         (v/vector -8 6 -1))))
+
 (deftest test-magnitude
   (is (= (v/magnitude (v/vector 1 0 0)) 1.0))
   (is (= (v/magnitude (v/vector 0 -1 0)) 1.0))

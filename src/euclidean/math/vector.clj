@@ -171,6 +171,16 @@
   [v]
   (scale v (/ 1.0 (magnitude v))))
 
+(defn cross
+  "Find the cross-product of two 3D vectors."
+  [^Vector3D v1 ^Vector3D v2]
+  (Vector3D. (- (* (.getY v1) (.getZ v2))
+                (* (.getZ v1) (.getY v2)))
+             (- (* (.getZ v1) (.getX v2))
+                (* (.getX v1) (.getZ v2)))
+             (- (* (.getX v1) (.getY v2))
+                (* (.getY v1) (.getX v2)))))
+
 (defn vector
   "Create a new 2D or 3D math vector."
   ([^double x ^double y]
