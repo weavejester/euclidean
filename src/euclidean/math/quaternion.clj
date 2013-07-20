@@ -41,6 +41,16 @@
          (= z (q 2))
          (= w (q 3)))))
 
+(defn mult
+  "Multiply two quaternions together."
+  [^Quaternion q1 ^Quaternion q2]
+  (let [x1 (.getX q1), y1 (.getY q1), z1 (.getZ q1), w1 (.getW q1)
+        x2 (.getX q2), y2 (.getY q2), z2 (.getZ q2), w2 (.getW q2)]
+    [(+ (* x1 w2)     (* y1 z2)     (- (* z1 y2)) (* w1 x2))
+     (+ (- (* x1 z2)) (* y1 w2)     (* z1 x2)     (* w1 y2))
+     (+ (* x1 y2)     (- (* y1 x2)) (* z1 w2)     (* w1 z2))
+     (+ (- (* x1 x2)) (- (* y1 y2)) (- (* z1 z2)) (* w1 w2))]))
+
 (defn quaternion [^double x ^double y ^double z ^double w]
   (Quaternion. x y z w))
 

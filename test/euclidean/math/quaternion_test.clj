@@ -14,3 +14,10 @@
   (let [q (q/quaternion 1 2 3 4)]
     (is (= (get q 0) 1.0))
     (is (= (q 3) 4.0))))
+
+(deftest test-mult
+  (let [q1 (q/quaternion 0.707 0 0 0.707)
+        q2 (q/quaternion 0 -0.707 0 0.707)]
+    (is (= (q/mult q1 q2)
+           (q/quaternion 0.49984899999999993 -0.49984899999999993
+                         -0.49984899999999993 0.49984899999999993)))))
