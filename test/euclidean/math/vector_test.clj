@@ -43,6 +43,10 @@
   (is (= (v/scale (v/vector 1 2 3) 2)
          (v/vector 2 4 6))))
 
+(deftest test-dot
+  (is (= (v/dot (v/vector 1 2 3) (v/vector 4 5 6))
+         32.0)))
+
 (deftest test-magnitude
   (is (= (v/magnitude (v/vector 1 0 0)) 1.0))
   (is (= (v/magnitude (v/vector 0 -1 0)) 1.0))

@@ -94,6 +94,10 @@
   (Vector2D. (* (.getX v) f)
              (* (.getY v) f)))
 
+(defn- dot-2d [^Vector2D v1 ^Vector2D v2]
+  (+ (* (.getX v1) (.getX v2))
+     (* (.getY v1) (.getY v2))))
+
 (defn- magnitude-2d [^Vector2D v]
   (let [x (.getX v)
         y (.getY v)]
@@ -124,6 +128,11 @@
              (* (.getY v) f)
              (* (.getZ v) f)))
 
+(defn- dot-3d [^Vector3D v1 ^Vector3D v2]
+  (+ (* (.getX v1) (.getX v2))
+     (* (.getY v1) (.getY v2))
+     (* (.getZ v1) (.getZ v2))))
+
 (defn- magnitude-3d [^Vector3D v]
   (let [x (.getX v)
         y (.getY v)
@@ -136,6 +145,7 @@
   (mult [v1 v2] "Multiply one vector by another.")
   (div [v1 v2] "Divide one vector by another.")
   (scale [v f] "Scale a vector by a factor.")
+  (dot [v1 v2] "Find the dot-product of two vectors.")
   (magnitude [v] "The magnitude (length) of the vector."))
 
 (extend-protocol Vector
@@ -145,6 +155,7 @@
   (mult [v1 v2] (mult-2d v1 v2))
   (div [v1 v2] (div-2d v1 v2))
   (scale [v f] (scale-2d v f))
+  (dot [v1 v2] (dot-2d v1 v2))
   (magnitude [v] (magnitude-2d v))
   Vector3D
   (add [v1 v2] (add-3d v1 v2))
@@ -152,6 +163,7 @@
   (mult [v1 v2] (mult-3d v1 v2))
   (div [v1 v2] (div-3d v1 v2))
   (scale [v f] (scale-3d v f))
+  (dot [v1 v2] (dot-3d v1 v2))
   (magnitude [v] (magnitude-3d v)))
 
 (defn normalize
