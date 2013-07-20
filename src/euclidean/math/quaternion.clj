@@ -118,14 +118,18 @@
      (Vector3D. (- xy zw) (- 1.0 (+ xx zz)) (+ yz xw))
      (Vector3D. (+ xz yw) (- yz xw) (- 1.0 (+ xx yy)))]))
 
-(defn quaternion [^double x ^double y ^double z ^double w]
+(defn quaternion
+  "Create a new quaternion."
+  [^double x ^double y ^double z ^double w]
   (Quaternion. x y z w))
 
 (def identity
   "The identity quaternion."
   (quaternion 0 0 0 1))
 
-(defn into-quaternion [coll]
+(defn into-quaternion
+  "Turn a collection of 4 numbers into a quaternion."
+  [coll]
   (apply quaternion coll))
 
 (defmethod print-method Quaternion [^Quaternion q ^java.io.Writer w]
