@@ -17,6 +17,26 @@
     (is (= (get q 0) 1.0))
     (is (= (q 3) 4.0))))
 
+(deftest test-angle-from-normal-axis
+  (is (approx= (q/from-angle-normal-axis (/ Math/PI 2) (v/vector 1 0 0))
+               (q/quaternion 0.707 0 0 0.707))))
+
+(deftest test-angle-from-axis
+  (is (approx= (q/from-angle-axis (/ Math/PI 2) (v/vector 3 0 0))
+               (q/quaternion 0.707 0 0 0.707))))
+
+(deftest test-pitch
+  (is (approx= (q/pitch (/ Math/PI 2))
+               (q/quaternion 0.707 0 0 0.707))))
+
+(deftest test-yaw
+  (is (approx= (q/yaw (/ Math/PI 2))
+               (q/quaternion 0 0.707 0 0.707))))
+
+(deftest test-roll
+  (is (approx= (q/roll (/ Math/PI 2))
+               (q/quaternion 0 0 0.707 0.707))))
+
 (deftest test-mult
   (let [q1 (q/quaternion 0.707 0 0 0.707)
         q2 (q/quaternion 0 -0.707 0 0.707)]
