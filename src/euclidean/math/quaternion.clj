@@ -1,4 +1,6 @@
-(ns euclidean.math.quaternion)
+(ns euclidean.math.quaternion
+  (:require euclidean.math.vector)
+  (:import euclidean.math.vector.Vector3D))
 
 (definterface Coords4D
   (^double getX [])
@@ -50,6 +52,18 @@
      (+ (- (* x1 z2)) (* y1 w2)     (* z1 x2)     (* w1 y2))
      (+ (* x1 y2)     (- (* y1 x2)) (* z1 w2)     (* w1 z2))
      (+ (- (* x1 x2)) (- (* y1 y2)) (- (* z1 z2)) (* w1 w2))]))
+
+(defn rotate
+  "Rotate a vector with a quaternion."
+  [^Quaternion q ^Vector3D v]
+  (let [qx (.getX q), qy (.getY q), qz (.getZ q), qw (.getW q)
+        vx (.getX v), vy (.getY v), vz (.getZ v)]
+    [(+ (* qw qw vx)     (* 2 qy qw vz) (* -2 qz qw vy)  (* qx qx vx)
+        (* 2 qy qx vy)   (* 2 qz qx vz) (- (* qz qz vx)) (- (* qy qy vx)))
+     (+ (* 2 qx qy vx)   (* qy qy vy)   (* 2 qz qy vz)   (* 2 qw qz vx)
+        (- (* qz qz vy)) (* qw qw vy)   (* -2 qx qw vz)  (- (* qx qx vy)))
+     (+ (* 2 qx qz vx)   (* 2 qy qz vy) (* qz qz vz)     (* -2 qw qy vx)
+        (- (* qy qy vz)) (* 2 qw qx vy) (- (* qx qx vz)) (* qw qw vz))]))
 
 (defn quaternion [^double x ^double y ^double z ^double w]
   (Quaternion. x y z w))

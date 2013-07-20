@@ -1,6 +1,7 @@
 (ns euclidean.math.quaternion
   (:require [clojure.test :refer :all]
-            [euclidean.math.quaternion :as q]))
+            [euclidean.math.quaternion :as q]
+            [euclidean.math.vector :as v]))
 
 (deftest test-data-readers
   (is (= (pr-str (q/quaternion 1 2 3 4))
@@ -21,3 +22,7 @@
     (is (= (q/mult q1 q2)
            (q/quaternion 0.49984899999999993 -0.49984899999999993
                          -0.49984899999999993 0.49984899999999993)))))
+
+(deftest test-rotate
+  (is (= (q/rotate (q/quaternion 0 0 0 1) (v/vector 1 2 3))
+         (v/vector 1 2 3))))
