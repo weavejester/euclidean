@@ -1,4 +1,4 @@
-(ns euclidean.math.quaternion
+(ns euclidean.math.quaternion-test
   (:require [clojure.test :refer :all]
             [euclidean.math.quaternion :as q]
             [euclidean.math.vector :as v]))
