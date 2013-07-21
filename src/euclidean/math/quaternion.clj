@@ -44,6 +44,8 @@
          (= z (q 2))
          (= w (q 3)))))
 
+(alter-meta! #'->Quaternion assoc :no-doc true)
+
 (defn mult
   "Multiply two quaternions together."
   [^Quaternion q1 ^Quaternion q2]
@@ -154,8 +156,6 @@
                     (* r (+ m21 m12))
                     (* 0.5 s)
                     (* r (- m10 m01)))))))
-
-(alter-meta! #'->Quaternion assoc :no-doc true)
 
 (defn quaternion
   "Create a new quaternion."
