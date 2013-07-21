@@ -74,6 +74,9 @@
          (= y (v 1))
          (= z (v 2)))))
 
+(alter-meta! #'->Vector2D assoc :no-doc true)
+(alter-meta! #'->Vector3D assoc :no-doc true)
+
 (defn- add-2d [^Vector2D v1 ^Vector2D v2]
   (Vector2D. (+ (.getX v1) (.getX v2))
              (+ (.getY v1) (.getY v2))))

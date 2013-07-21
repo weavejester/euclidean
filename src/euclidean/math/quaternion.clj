@@ -155,6 +155,8 @@
                     (* 0.5 s)
                     (* r (- m10 m01)))))))
 
+(alter-meta! #'->Quaternion assoc :no-doc true)
+
 (defn quaternion
   "Create a new quaternion."
   [^double x ^double y ^double z ^double w]
