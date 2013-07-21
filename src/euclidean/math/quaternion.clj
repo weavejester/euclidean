@@ -118,6 +118,43 @@
      (Vector3D. (- xy zw) (- 1.0 (+ xx zz)) (+ yz xw))
      (Vector3D. (+ xz yw) (- yz xw) (- 1.0 (+ xx yy)))]))
 
+(defn from-axes
+  "Create a quaternion from three axis vectors."
+  [^Vector3D x-axis ^Vector3D y-axis ^Vector3D z-axis]
+  (let [m00 (.getX x-axis), m01 (.getX y-axis), m02 (.getX z-axis)
+        m10 (.getY x-axis), m11 (.getY y-axis), m12 (.getY z-axis)
+        m20 (.getZ x-axis), m21 (.getZ y-axis), m22 (.getZ z-axis)
+        trace (+ m00 m11 m22)]
+    (cond
+     (>= trace 0.5)
+     (let [s (Math/sqrt (inc trace))
+           r (/ 0.5 s)]
+       (Quaternion. (* r (- m21 m12))
+                    (* r (- m02 m20))
+                    (* r (- m10 m01))
+                    (* 0.5 s)))
+     (and (> m00 m11) (> m00 m22))
+     (let [s (Math/sqrt (- (inc m00) m11 m22))
+           r (/ 0.5 s)]
+       (Quaternion. (* 0.5 s)
+                    (* r (+ m10 m01))
+                    (* r (+ m02 m20))
+                    (* r (- m21 m12))))
+     (> m11 m22)
+     (let [s (Math/sqrt (- (inc m11) m00 m22))
+           r (/ 0.5 s)]
+       (Quaternion. (* r (+ m10 m01))
+                    (* 0.5 s)
+                    (* r (+ m21 m12))
+                    (* r (- m02 m20))))
+     :else
+     (let [s (Math/sqrt (- (inc m22) m00 m11))
+           r (/ 0.5 s)]
+       (Quaternion. (* r (+ m02 m20))
+                    (* r (+ m21 m12))
+                    (* 0.5 s)
+                    (* r (- m10 m01)))))))
+
 (defn quaternion
   "Create a new quaternion."
   [^double x ^double y ^double z ^double w]
