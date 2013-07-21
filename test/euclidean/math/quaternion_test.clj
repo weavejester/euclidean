@@ -58,3 +58,7 @@
     (is (= x [1.0 0.0 0.0]))
     (is (= y [0.0 1.0 0.0]))
     (is (= z [0.0 0.0 1.0]))))
+
+(deftest test-from-axes
+  (is (= (q/from-axes (v/vector 1 0 0) (v/vector 0 1 0) (v/vector 0 0 1))
+         (q/quaternion 0 0 0 1))))
