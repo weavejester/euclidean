@@ -1,13 +1,16 @@
-# euclidean
+# Euclidean
 
-A Clojure library designed to ... well, that part is up to you.
+A Clojure library for performing calculations suitable for 3D games
+using fast, immutable data structures.
 
-## Usage
+## Installation
 
-FIXME
+Add the following dependency to your `project.clj` file:
+
+    [euclidean "0.1.0-SNAPSHOT"]
 
 ## License
 
-Copyright © 2013 FIXME
+Copyright © 2013 James Reeves
 
 Distributed under the Eclipse Public License, the same as Clojure.
