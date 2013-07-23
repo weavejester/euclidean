@@ -11,6 +11,15 @@ Add the following dependency to your `project.clj` file:
 
     [euclidean "0.1.0"]
 
+## Example
+
+```clojure
+(require '[euclidean.math.vector :as v])
+(require '[euclidean.math.quaternion :as q])
+
+(q/rotate (v/vector 0 0 1) (q/yaw Math/PI))
+```
+
 ## Documentation
 
 * [API Docs](http://weavejester.github.io/euclidean/)
