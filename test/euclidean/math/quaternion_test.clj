@@ -62,3 +62,7 @@
 (deftest test-from-axes
   (is (= (q/from-axes (v/vector 1 0 0) (v/vector 0 1 0) (v/vector 0 0 1))
          (q/quaternion 0 0 0 1))))
+
+(deftest test-look-at
+  (is (approx= (q/look-at (v/vector 0 1 0) (v/vector 0 0 -1))
+               (q/quaternion -0.707 0 0 0.707))))
