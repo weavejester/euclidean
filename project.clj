@@ -6,4 +6,5 @@
   :dependencies [[org.clojure/clojure "1.4.0"]]
   :plugins [[codox "0.6.4"]]
   :profiles
-  {:dev {:dependencies [[criterium "0.4.1"]]}})
+  {:dev {:dependencies [[criterium "0.4.1"]]}
+   :1.5 {:dependencies [[org.clojure/clojure "1.5.1"]]}})
