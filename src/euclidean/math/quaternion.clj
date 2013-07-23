@@ -157,6 +157,14 @@
                     (* 0.5 s)
                     (* r (- m10 m01)))))))
 
+(defn look-at
+  "Create a quaternion that is directed at a point specified by a vector."
+  [^Vector3D direction ^Vector3D up]
+  (let [z-axis (v/normalize direction)
+        x-axis (v/cross up z-axis)
+        y-axis (v/cross z-axis x-axis)]
+    (from-axes x-axis y-axis z-axis)))
+
 (defn quaternion
   "Create a new quaternion."
   [^double x ^double y ^double z ^double w]
