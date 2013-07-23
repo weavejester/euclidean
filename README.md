@@ -1,5 +1,7 @@
 # Euclidean
 
+[![Build Status](https://travis-ci.org/weavejester/euclidean.png?branch=master)](https://travis-ci.org/weavejester/euclidean)
+
 A Clojure library for performing calculations suitable for 3D games
 using fast, immutable data structures.
 
