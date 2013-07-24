@@ -51,22 +51,24 @@
   [^Quaternion q1 ^Quaternion q2]
   (let [x1 (.getX q1), y1 (.getY q1), z1 (.getZ q1), w1 (.getW q1)
         x2 (.getX q2), y2 (.getY q2), z2 (.getZ q2), w2 (.getW q2)]
-    [(+ (* x1 w2)     (* y1 z2)     (- (* z1 y2)) (* w1 x2))
+    (Quaternion.
+     (+ (* x1 w2)     (* y1 z2)     (- (* z1 y2)) (* w1 x2))
      (+ (- (* x1 z2)) (* y1 w2)     (* z1 x2)     (* w1 y2))
      (+ (* x1 y2)     (- (* y1 x2)) (* z1 w2)     (* w1 z2))
-     (+ (- (* x1 x2)) (- (* y1 y2)) (- (* z1 z2)) (* w1 w2))]))
+     (+ (- (* x1 x2)) (- (* y1 y2)) (- (* z1 z2)) (* w1 w2)))))
 
 (defn rotate
   "Rotate a vector with a quaternion."
   [^Quaternion q ^Vector3D v]
   (let [qx (.getX q), qy (.getY q), qz (.getZ q), qw (.getW q)
         vx (.getX v), vy (.getY v), vz (.getZ v)]
-    [(+ (* qw qw vx)     (* 2 qy qw vz) (* -2 qz qw vy)  (* qx qx vx)
+    (Vector3D.
+     (+ (* qw qw vx)     (* 2 qy qw vz) (* -2 qz qw vy)  (* qx qx vx)
         (* 2 qy qx vy)   (* 2 qz qx vz) (- (* qz qz vx)) (- (* qy qy vx)))
      (+ (* 2 qx qy vx)   (* qy qy vy)   (* 2 qz qy vz)   (* 2 qw qz vx)
         (- (* qz qz vy)) (* qw qw vy)   (* -2 qx qw vz)  (- (* qx qx vy)))
      (+ (* 2 qx qz vx)   (* 2 qy qz vy) (* qz qz vz)     (* -2 qw qy vx)
-        (- (* qy qy vz)) (* 2 qw qx vy) (- (* qx qx vz)) (* qw qw vz))]))
+        (- (* qy qy vz)) (* 2 qw qx vy) (- (* qx qx vz)) (* qw qw vz)))))
 
 (defn from-angle-normal-axis
   "Create a quaternion from an angle in radians and a normalized axis vector."
