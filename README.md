@@ -9,7 +9,7 @@ using fast, immutable data structures.
 
 Add the following dependency to your `project.clj` file:
 
-    [euclidean "0.1.0"]
+    [euclidean "0.1.1"]
 
 ## Example
 
