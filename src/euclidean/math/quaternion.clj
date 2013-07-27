@@ -183,3 +183,6 @@
 
 (defmethod print-method Quaternion [^Quaternion q ^java.io.Writer w]
   (.write w (.toString q)))
+
+(defmethod print-dup Quaternion [^Quaternion q ^java.io.Writer w]
+  (.write w (.toString q)))

@@ -200,3 +200,9 @@
 
 (defmethod print-method Vector3D [^Vector3D v ^java.io.Writer w]
   (.write w (.toString v)))
+
+(defmethod print-dup Vector2D [^Vector2D v ^java.io.Writer w]
+  (.write w (.toString v)))
+
+(defmethod print-dup Vector3D [^Vector3D v ^java.io.Writer w]
+  (.write w (.toString v)))
