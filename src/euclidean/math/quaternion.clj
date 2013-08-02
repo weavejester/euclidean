@@ -130,7 +130,7 @@
         m20 (.getZ x-axis), m21 (.getZ y-axis), m22 (.getZ z-axis)
         trace (+ m00 m11 m22)]
     (cond
-     (>= trace 0.5)
+     (>= trace 0)
      (let [s (Math/sqrt (inc trace))
            r (/ 0.5 s)]
        (Quaternion. (* r (- m21 m12))
