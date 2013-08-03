@@ -37,10 +37,14 @@
   (hashCode [_]
     (-> 17 (add-hashcode x)
            (add-hashcode y)))
-  (equals [_ v]
-    (and (= (count v) 2)
-         (= x (v 0))
-         (= y (v 1)))))
+  (equals [self v]
+    (or (identical? self v)
+        (and (instance? Vector2D v)
+             (= x (.getX ^Vector2D v))
+             (= y (.getY ^Vector2D v)))
+        (and (= (count v) 2)
+             (= x (v 0))
+             (= y (v 1))))))
 
 (definterface Coords3D
   (^double getX [])
@@ -78,11 +82,16 @@
     (-> 17 (add-hashcode x)
            (add-hashcode y)
            (add-hashcode z)))
-  (equals [_ v]
-    (and (= (count v) 3)
-         (= x (v 0))
-         (= y (v 1))
-         (= z (v 2)))))
+  (equals [self v]
+    (or (identical? self v)
+        (and (instance? Vector3D v)
+             (= x (.getX ^Vector3D v))
+             (= y (.getY ^Vector3D v))
+             (= z (.getZ ^Vector3D v)))
+        (and (= (count v) 3)
+             (= x (v 0))
+             (= y (v 1))
+             (= z (v 2))))))
 
 (alter-meta! #'->Vector2D assoc :no-doc true)
 (alter-meta! #'->Vector3D assoc :no-doc true)

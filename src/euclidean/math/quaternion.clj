@@ -45,12 +45,18 @@
            (add-hashcode y)
            (add-hashcode z)
            (add-hashcode w)))
-  (equals [_ q]
-    (and (= (count q) 4)
-         (= x (q 0))
-         (= y (q 1))
-         (= z (q 2))
-         (= w (q 3)))))
+  (equals [self q]
+    (or (identical? self q)
+        (and (instance? Quaternion q)
+             (= x (.getX ^Quaternion q))
+             (= y (.getY ^Quaternion q))
+             (= z (.getZ ^Quaternion q))
+             (= w (.getW ^Quaternion q)))
+        (and (= (count q) 4)
+             (= x (q 0))
+             (= y (q 1))
+             (= z (q 2))
+             (= w (q 3))))))
 
 (alter-meta! #'->Quaternion assoc :no-doc true)
 
