@@ -3,6 +3,9 @@
   (:require [euclidean.math.vector :as v])
   (:import euclidean.math.vector.Vector3D))
 
+(defn- add-hashcode [hash x]
+  (+ hash (* 37 hash) (Float/floatToIntBits x)))
+
 (definterface Coords4D
   (^double getX [])
   (^double getY [])
@@ -37,6 +40,11 @@
   Object
   (toString [_]
     (str "#math/quaternion [" x " " y  " " z " " w "]"))
+  (hashCode [_]
+    (-> 17 (add-hashcode x)
+           (add-hashcode y)
+           (add-hashcode z)
+           (add-hashcode w)))
   (equals [_ q]
     (and (= (count q) 4)
          (= x (q 0))

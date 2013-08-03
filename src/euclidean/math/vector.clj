@@ -1,6 +1,9 @@
 (ns euclidean.math.vector
   (:refer-clojure :exclude [vector]))
 
+(defn- add-hashcode [hash x]
+  (+ hash (* 37 hash) (Float/floatToIntBits x)))
+
 (definterface Coords2D
   (^double getX [])
   (^double getY []))
@@ -31,6 +34,9 @@
   Object
   (toString [_]
     (str "#math/vector [" x " " y "]"))
+  (hashCode [_]
+    (-> 17 (add-hashcode x)
+           (add-hashcode y)))
   (equals [_ v]
     (and (= (count v) 2)
          (= x (v 0))
@@ -68,6 +74,10 @@
   Object
   (toString [_]
     (str "#math/vector [" x " " y " " z "]"))
+  (hashCode [_]
+    (-> 17 (add-hashcode x)
+           (add-hashcode y)
+           (add-hashcode z)))
   (equals [_ v]
     (and (= (count v) 3)
          (= x (v 0))
