@@ -212,7 +212,10 @@
 
 (defn into-vector [coll]
   "Turn a collection of numbers into a math vector."
-  (apply vector coll))
+  (if (or (instance? Vector2D coll)
+          (instance? Vector3D coll))
+    coll
+    (apply vector coll)))
 
 (defmethod print-method Vector2D [^Vector2D v ^java.io.Writer w]
   (.write w (.toString v)))

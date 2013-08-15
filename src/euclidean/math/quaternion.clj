@@ -193,7 +193,9 @@
 (defn into-quaternion
   "Turn a collection of 4 numbers into a quaternion."
   [coll]
-  (apply quaternion coll))
+  (if (instance? Quaternion coll)
+    coll
+    (apply quaternion coll)))
 
 (defmethod print-method Quaternion [^Quaternion q ^java.io.Writer w]
   (.write w (.toString q)))
