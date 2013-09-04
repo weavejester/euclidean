@@ -21,7 +21,7 @@
     (is (= (v/add v1 v2)
            (v/vector 5 7 9)))))
 
-(deftest test-add
+(deftest test-sub
   (let [v1 (v/vector 4 5 6)
         v2 (v/vector 3 2 1)]
     (is (= (v/sub v1 v2)

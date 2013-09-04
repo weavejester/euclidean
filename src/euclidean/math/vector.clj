@@ -101,8 +101,8 @@
              (+ (.getY v1) (.getY v2))))
 
 (defn- sub-2d [^Vector2D v1 ^Vector2D v2]
-  (Vector2D. (- (.getX v1) (.getY v2))
-             (- (.getX v1) (.getY v2))))
+  (Vector2D. (- (.getX v1) (.getX v2))
+             (- (.getY v1) (.getY v2))))
 
 (defn- mult-2d [^Vector2D v1 ^Vector2D v2]
   (Vector2D. (* (.getX v1) (.getX v2))
@@ -163,7 +163,7 @@
 
 (defprotocol Vector
   (add [v1 v2] "Add two vectors together.")
-  (sub [v1 v2] "Subject the first vector from the second.")
+  (sub [v1 v2] "Subtract the second vector from the first.")
   (mult [v1 v2] "Multiply one vector by another.")
   (div [v1 v2] "Divide one vector by another.")
   (scale [v f] "Scale a vector by a factor.")
