@@ -5,6 +5,11 @@
 A Clojure library for performing calculations suitable for 3D games
 using fast, immutable data structures.
 
+Euclidean is written in pure Clojure, but has performance comparable
+to vector libraries written in Java, such as [Vectorz][1].
+
+[1]: https://github.com/mikera/vectorz-clj
+
 ## Installation
 
 Add the following dependency to your `project.clj` file:
