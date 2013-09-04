@@ -22,10 +22,16 @@
            (v/vector 5 7 9)))))
 
 (deftest test-sub
-  (let [v1 (v/vector 4 5 6)
-        v2 (v/vector 3 2 1)]
-    (is (= (v/sub v1 v2)
-           (v/vector 1 3 5)))))
+  (testing "2D vector"
+    (let [v1 (v/vector 4 5)
+          v2 (v/vector 3 2)]
+      (is (= (v/sub v1 v2)
+             (v/vector 1 3)))))
+  (testing "3D vector"
+    (let [v1 (v/vector 4 5 6)
+          v2 (v/vector 3 2 1)]
+      (is (= (v/sub v1 v2)
+             (v/vector 1 3 5))))))
 
 (deftest test-mult
   (let [v1 (v/vector 1 2 3)
