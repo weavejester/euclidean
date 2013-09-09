@@ -14,7 +14,7 @@ to vector libraries written in Java, such as [Vectorz][1].
 
 Add the following dependency to your `project.clj` file:
 
-    [euclidean "0.1.6"]
+    [euclidean "0.1.7"]
 
 ## Example
 

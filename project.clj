@@ -1,4 +1,4 @@
-(defproject euclidean "0.1.6"
+(defproject euclidean "0.1.7"
   :description "Library for fast, immutable 3D math"
   :url "https://github.com/weavejester/euclidean"
   :license {:name "Eclipse Public License"
