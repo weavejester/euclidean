@@ -203,6 +203,25 @@
              (- (* (.getX v1) (.getY v2))
                 (* (.getY v1) (.getX v2)))))
 
+(defn get-x
+  "Find the x coordinate of a vector."
+  [v]
+  (if (instance? Vector3D v)
+    (.getX ^Vector3D v)
+    (.getX ^Vector2D v)))
+
+(defn get-y
+  "Find the y coordinate of a vector."
+  [v]
+  (if (instance? Vector3D v)
+    (.getY ^Vector3D v)
+    (.getY ^Vector2D v)))
+
+(defn get-z
+  "Find the z coordinate of a vector."
+  [v]
+  (.getZ ^Vector3D v))
+
 (defn vector
   "Create a new 2D or 3D math vector."
   ([^double x ^double y]

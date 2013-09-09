@@ -66,3 +66,10 @@
 (deftest test-look-at
   (is (approx= (q/look-at (v/vector 0 1 0) (v/vector 0 0 -1))
                (q/quaternion -0.707 0 0 0.707))))
+
+(deftest test-get
+  (let [q (q/quaternion 1 2 3 4)]
+    (is (= (q/get-x q) 1.0))
+    (is (= (q/get-y q) 2.0))
+    (is (= (q/get-z q) 3.0))
+    (is (= (q/get-w q) 4.0))))

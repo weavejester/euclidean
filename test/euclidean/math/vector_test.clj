@@ -68,3 +68,14 @@
          (v/vector 1 0 0)))
   (is (= (v/normalize (v/vector 0 3 4))
          (v/vector 0.0 (* 3.0 (/ 1.0 5.0)) (* 4.0 (/ 1.0 5.0))))))
+
+(deftest test-get
+  (testing "2D vector"
+    (let [v (v/vector 1 2)]
+      (is (= (v/get-x v) 1.0))
+      (is (= (v/get-y v) 2.0))))
+  (testing "3D vector"
+    (let [v (v/vector 1 2 3)]
+      (is (= (v/get-x v) 1.0))
+      (is (= (v/get-y v) 2.0))
+      (is (= (v/get-z v) 3.0)))))

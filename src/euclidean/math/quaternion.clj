@@ -181,6 +181,26 @@
         y-axis (v/normalize (v/cross direction x-axis))]
     (from-axes x-axis y-axis z-axis)))
 
+(defn get-x
+  "Get the x component of a quaternion."
+  [^Quaternion q]
+  (.getX q))
+
+(defn get-y
+  "Get the y component of a quaternion."
+  [^Quaternion q]
+  (.getY q))
+
+(defn get-z
+  "Get the z component of a quaternion."
+  [^Quaternion q]
+  (.getZ q))
+
+(defn get-w
+  "Get the w component of a quaternion."
+  [^Quaternion q]
+  (.getW q))
+
 (defn quaternion
   "Create a new quaternion."
   [^double x ^double y ^double z ^double w]
