@@ -162,8 +162,8 @@
     (Math/sqrt (+ (* x x) (* y y) (* z z)))))
 
 (defprotocol Vector
-  (add [v1 v2] "Add two vectors together.")
-  (sub [v1 v2] "Subtract the second vector from the first.")
+  (^:no-doc add* [v1 v2] "Add two vectors together.")
+  (^:no-doc sub* [v1 v2] "Subtract the second vector from the first.")
   (mult [v1 v2] "Multiply one vector by another.")
   (div [v1 v2] "Divide one vector by another.")
   (scale [v f] "Scale a vector by a factor.")
@@ -172,21 +172,34 @@
 
 (extend-protocol Vector
   Vector2D
-  (add [v1 v2] (add-2d v1 v2))
-  (sub [v1 v2] (sub-2d v1 v2))
+  (add* [v1 v2] (add-2d v1 v2))
+  (sub* [v1 v2] (sub-2d v1 v2))
   (mult [v1 v2] (mult-2d v1 v2))
   (div [v1 v2] (div-2d v1 v2))
   (scale [v f] (scale-2d v f))
   (dot [v1 v2] (dot-2d v1 v2))
   (magnitude [v] (magnitude-2d v))
   Vector3D
-  (add [v1 v2] (add-3d v1 v2))
-  (sub [v1 v2] (sub-3d v1 v2))
+  (add* [v1 v2] (add-3d v1 v2))
+  (sub* [v1 v2] (sub-3d v1 v2))
   (mult [v1 v2] (mult-3d v1 v2))
   (div [v1 v2] (div-3d v1 v2))
   (scale [v f] (scale-3d v f))
   (dot [v1 v2] (dot-3d v1 v2))
   (magnitude [v] (magnitude-3d v)))
+
+(defn add
+  "Return the sum of one or more vectors."
+  ([v] v)
+  ([v1 v2] (add* v1 v2))
+  ([v1 v2 & more] (reduce add* v1 (cons v2 more))))
+
+(defn sub
+  "If only one vector supplied, return the negation of the vector. Otherwise
+  all subsequent vectors are subtracted from the first."
+  ([v] (scale v -1.0))
+  ([v1 v2] (sub* v1 v2))
+  ([v1 v2 & more] (reduce sub* v1 (cons v2 more))))
 
 (defn normalize
   "Normalize a vector by dividing by its magnitude."

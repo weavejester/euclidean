@@ -16,10 +16,22 @@
     (is (= (v 1) 2.0))))
 
 (deftest test-add
-  (let [v1 (v/vector 1 2 3)
-        v2 (v/vector 4 5 6)]
-    (is (= (v/add v1 v2)
-           (v/vector 5 7 9)))))
+  (testing "2D vector"
+    (let [v1 (v/vector 1 2)
+          v2 (v/vector 4 5)]
+      (is (= (v/add v1 v2)
+             (v/vector 5 7)))))
+  (testing "3D vector"
+    (let [v1 (v/vector 1 2 3)
+          v2 (v/vector 4 5 6)]
+      (is (= (v/add v1 v2)
+             (v/vector 5 7 9)))))
+  (testing "one arg"
+    (let [v (v/vector 1 2 3)]
+      (is (= (v/add v) v))))
+  (testing "many args"
+    (is (= (v/add (v/vector 1 2) (v/vector 3 4) (v/vector 5 6))
+           (v/vector 9 12)))))
 
 (deftest test-sub
   (testing "2D vector"
@@ -31,7 +43,13 @@
     (let [v1 (v/vector 4 5 6)
           v2 (v/vector 3 2 1)]
       (is (= (v/sub v1 v2)
-             (v/vector 1 3 5))))))
+             (v/vector 1 3 5)))))
+  (testing "negation"
+    (is (= (v/sub (v/vector 1 2 3))
+           (v/vector -1 -2 -3))))
+  (testing "many args"
+    (is (= (v/sub (v/vector 9 9) (v/vector 1 2) (v/vector 3 4))
+           (v/vector 5 3)))))
 
 (deftest test-mult
   (let [v1 (v/vector 1 2 3)
