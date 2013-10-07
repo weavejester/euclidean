@@ -22,7 +22,7 @@ Add the following dependency to your `project.clj` file:
 (require '[euclidean.math.vector :as v])
 (require '[euclidean.math.quaternion :as q])
 
-(q/rotate (v/vector 0 0 1) (q/yaw Math/PI))
+(q/rotate (q/yaw Math/PI) (v/vector 0 0 1))
 ```
 
 ## Documentation
