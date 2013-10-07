@@ -38,10 +38,20 @@
                (q/quaternion 0 0 0.707 0.707))))
 
 (deftest test-mult
-  (let [q1 (q/quaternion 0.707 0 0 0.707)
-        q2 (q/quaternion 0 -0.707 0 0.707)]
-    (is (approx= (q/mult q1 q2)
-                 (q/quaternion 0.5 -0.5 -0.5 0.5)))))
+  (testing "one arg"
+    (let [q (q/quaternion 0.707 0 0 0.707)]
+      (is (= (q/mult q) q))))
+  (testing "two args"
+    (let [q1 (q/quaternion 0.707 0 0 0.707)
+          q2 (q/quaternion 0 -0.707 0 0.707)]
+      (is (approx= (q/mult q1 q2)
+                   (q/quaternion 0.5 -0.5 -0.5 0.5)))))
+  (testing "more args"
+    (let [q1 (q/quaternion 0.707 0 0 0.707)
+          q2 (q/quaternion 0 0 0 1)
+          q3 (q/quaternion 0 -0.707 0 0.707)]
+      (is (approx= (q/mult q1 q2 q3)
+                   (q/quaternion 0.5 -0.5 -0.5 0.5))))))
 
 (deftest test-rotate
   (let [v (v/vector 1 2 3)]
