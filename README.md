@@ -50,8 +50,25 @@ functions:
 (q/into-quaternion [0 0 0 1])
 ```
 
-For a full list of functions that manipulate and create vectors and
-quaternions, see the API docs linked below.
+These data structures implement standard Clojure interfaces, so you
+can use functions like `get`, `count` and `seq` on them:
+
+```clojure
+(def v (v/vector 1 2 3))
+
+(get v 0)            ;; => 1.0
+(v 1)                ;; => 2.0
+(count v)            ;; => 3
+(seq v)              ;; => (1.0 2.0 3.0)
+(= v [1.0 2.0 3.0])  ;; => true
+```
+
+Note how the numbers in the vector are stored as doubles. This is for
+performance purposes.
+
+Euclidean provides a number of additional functions for manipulating
+and creating vectors and quaternions. For a full list, see the API
+documentation linked below.
 
 ## Documentation
 
