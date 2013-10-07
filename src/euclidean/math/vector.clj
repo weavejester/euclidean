@@ -164,8 +164,8 @@
 (defprotocol Vector
   (^:no-doc add* [v1 v2] "Add two vectors together.")
   (^:no-doc sub* [v1 v2] "Subtract the second vector from the first.")
-  (mult [v1 v2] "Multiply one vector by another.")
-  (div [v1 v2] "Divide one vector by another.")
+  (^:no-doc mult* [v1 v2] "Multiply one vector by another.")
+  (^:no-doc div* [v1 v2] "Divide one vector by another.")
   (scale [v f] "Scale a vector by a factor.")
   (dot [v1 v2] "Find the dot-product of two vectors.")
   (magnitude [v] "The magnitude (length) of the vector."))
@@ -174,16 +174,16 @@
   Vector2D
   (add* [v1 v2] (add-2d v1 v2))
   (sub* [v1 v2] (sub-2d v1 v2))
-  (mult [v1 v2] (mult-2d v1 v2))
-  (div [v1 v2] (div-2d v1 v2))
+  (mult* [v1 v2] (mult-2d v1 v2))
+  (div* [v1 v2] (div-2d v1 v2))
   (scale [v f] (scale-2d v f))
   (dot [v1 v2] (dot-2d v1 v2))
   (magnitude [v] (magnitude-2d v))
   Vector3D
   (add* [v1 v2] (add-3d v1 v2))
   (sub* [v1 v2] (sub-3d v1 v2))
-  (mult [v1 v2] (mult-3d v1 v2))
-  (div [v1 v2] (div-3d v1 v2))
+  (mult* [v1 v2] (mult-3d v1 v2))
+  (div* [v1 v2] (div-3d v1 v2))
   (scale [v f] (scale-3d v f))
   (dot [v1 v2] (dot-3d v1 v2))
   (magnitude [v] (magnitude-3d v)))
@@ -195,11 +195,26 @@
   ([v1 v2 & more] (reduce add* v1 (cons v2 more))))
 
 (defn sub
-  "If only one vector supplied, return the negation of the vector. Otherwise
+  "If only one vector is supplied, return the negation of the vector. Otherwise
   all subsequent vectors are subtracted from the first."
   ([v] (scale v -1.0))
   ([v1 v2] (sub* v1 v2))
   ([v1 v2 & more] (reduce sub* v1 (cons v2 more))))
+
+(defn mult
+  "Return the product of each x, y and z value in one or more vectors."
+  ([v] v)
+  ([v1 v2] (mult* v1 v2))
+  ([v1 v2 & more] (reduce mult* v1 (cons v2 more))))
+
+(defn div
+  "If only one vector is supplied, return 1/value for x, y and z. Otherwise
+  the first vector is divided by all other vectors."
+  ([v] (if (instance? Vector3D v)
+         (div* (Vector3D. 1.0 1.0 1.0) v)
+         (div* (Vector2D. 1.0 1.0) v)))
+  ([v1 v2] (div* v1 v2))
+  ([v1 v2 & more] (reduce div* v1 (cons v2 more))))
 
 (defn normalize
   "Normalize a vector by dividing by its magnitude."

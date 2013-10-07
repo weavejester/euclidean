@@ -52,16 +52,30 @@
            (v/vector 5 3)))))
 
 (deftest test-mult
-  (let [v1 (v/vector 1 2 3)
-        v2 (v/vector 2 3 4)]
-    (is (= (v/mult v1 v2)
-           (v/vector 2 6 12)))))
+  (testing "one arg"
+    (let [v (v/vector 1 2 3)]
+      (is (= (v/mult v) v))))
+  (testing "two args"
+    (let [v1 (v/vector 1 2 3)
+          v2 (v/vector 2 3 4)]
+      (is (= (v/mult v1 v2)
+             (v/vector 2 6 12)))))
+  (testing "many args"
+    (is (= (v/mult (v/vector 1 2) (v/vector 3 4) (v/vector 5 6))
+           (v/vector 15 48)))))
 
 (deftest test-div
-  (let [v1 (v/vector 1 2 3)
-        v2 (v/vector 2 4 5)]
-    (is (= (v/div v1 v2)
-           (v/vector 0.5 0.5 0.6)))))
+  (testing "one arg"
+    (is (= (v/div (v/vector 1 2 4))
+           (v/vector 1.0 0.5 0.25))))
+  (testing "two args"
+    (let [v1 (v/vector 1 2 3)
+          v2 (v/vector 2 4 5)]
+      (is (= (v/div v1 v2)
+             (v/vector 0.5 0.5 0.6)))))
+  (testing "many args"
+    (is (= (v/div (v/vector 12 24) (v/vector 2 3) (v/vector 3 4))
+           (v/vector 2 2)))))
 
 (deftest test-scale
   (is (= (v/scale (v/vector 1 2 3) 2)
