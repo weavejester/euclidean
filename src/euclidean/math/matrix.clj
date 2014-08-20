@@ -1,6 +1,6 @@
 (ns euclidean.math.matrix
   (:require [euclidean.math.vector :as vec])
-  (:import (euclidean.math.vector Vector2D Vector3D)))
+  (:import (euclidean.math.vector Vector2D Vector3D Vector4D)))
 
 (defn- add-hashcode [hash x]
   (+ hash (* 37 hash) (Float/floatToIntBits x)))
@@ -30,7 +30,7 @@
 
   Object
   (toString [_]
-    (str "#math/matrix [" m00 " " m01 " " m10 " " m11 "]"))
+    (str "#math/matrix [" [m00  m01] " " [m10 m11] "]"))
   (hashCode [_]
     (-> 17
         (add-hashcode m00)
@@ -78,7 +78,10 @@
 
   Object
   (toString [_]
-    (str "#math/matrix " [m00 m01 m02 m10 m11 m12 m20 m21 m22]))
+    (str "#math/matrix ["
+         [m00 m01 m02] " "
+         [m10 m11 m12] " "
+         [m20 m21 m22] "]"))
   (hashCode [_]
     (reduce add-hashcode 17 [m00 m01 m02 m10 m11 m12 m20 m21 m22]))
   (equals [self m]
@@ -101,23 +104,30 @@
              (= (Vector3D. m10 m11 m12) (m 1))
              (= (Vector3D. m20 m21 m22) (m 2))))))
 
-(deftype Matrix4D [^double x ^double y ^double z]
+(deftype Matrix4D [^double m00 ^double m01 ^double m02 ^double m03
+                   ^double m10 ^double m11 ^double m12 ^double m13
+                   ^double m20 ^double m21 ^double m22 ^double m23
+                   ^double m30 ^double m31 ^double m32 ^double m33]
   clojure.lang.Counted
   (count [_] 3)
 
   clojure.lang.Sequential
 
   clojure.lang.Seqable
-  (seq [_] (list x y z))
+  (seq [_] (list (Vector4D. m00 m01 m02 m03)
+                 (Vector4D. m10 m11 m12 m13)
+                 (Vector4D. m20 m21 m22 m23)
+                 (Vector4D. m30 m31 m32 m33)))
 
   clojure.lang.ILookup
   (valAt [m i]
     (.valAt m i nil))
   (valAt [_ i not-found]
     (case (int i)
-      0 x
-      1 y
-      2 z
+      0 (Vector4D. m00 m01 m02 m03)
+      1 (Vector4D. m10 m11 m12 m13)
+      2 (Vector4D. m20 m21 m22 m23)
+      3 (Vector4D. m30 m31 m32 m33)
       not-found))
 
   clojure.lang.IFn
@@ -126,18 +136,40 @@
 
   Object
   (toString [_]
-    (str "#math/matrix [" x " " y " " z "]"))
+    (str "#math/matrix ["
+         [m00 m01 m02] " "
+         [m10 m11 m12] " "
+         [m20 m21 m22] "]"))
   (hashCode [_]
-    (-> 17 (add-hashcode x)
-           (add-hashcode y)
-           (add-hashcode z)))
+    (reduce add-hashcode 17 [m00 m01 m02 m10 m11 m12 m20 m21 m22]))
   (equals [self m]
     (or (identical? self m)
-        (and (instance? Matrix3D m)
-             )
+        (and (instance? Matrix4D m)
+             (== m00 (.-m00 ^Matrix4D m))
+             (== m01 (.-m01 ^Matrix4D m))
+             (== m02 (.-m02 ^Matrix4D m))
+             (== m03 (.-m03 ^Matrix4D m))
+
+             (== m10 (.-m10 ^Matrix4D m))
+             (== m11 (.-m11 ^Matrix4D m))
+             (== m12 (.-m12 ^Matrix4D m))
+             (== m13 (.-m13 ^Matrix4D m))
+
+             (== m20 (.-m20 ^Matrix4D m))
+             (== m21 (.-m21 ^Matrix4D m))
+             (== m22 (.-m22 ^Matrix4D m))
+             (== m23 (.-m23 ^Matrix4D m))
+
+             (== m30 (.-m30 ^Matrix4D m))
+             (== m31 (.-m31 ^Matrix4D m))
+             (== m32 (.-m32 ^Matrix4D m))
+             (== m33 (.-m33 ^Matrix4D m)))
         (and (counted? m)
              (= (count m) 3)
-             ))))
+             (= (Vector4D. m00 m01 m02 m03) (m 0))
+             (= (Vector4D. m10 m11 m12 m13) (m 1))
+             (= (Vector4D. m20 m21 m22 m23) (m 2))
+             (= (Vector4D. m30 m31 m32 m33) (m 3))))))
 
 (alter-meta! #'->Matrix2D assoc :no-doc true)
 (alter-meta! #'->Matrix3D assoc :no-doc true)
@@ -389,8 +421,7 @@
 
 (defn into-matrix [coll]
   "Turn a collection of numbers into a math matrix."
-  (if (or (instance? Matrix2D coll)
-          (instance? Matrix3D coll))
+  (if (satisfies? Matrix coll)
     coll
     (apply matrix coll)))
 
@@ -400,8 +431,14 @@
 (defmethod print-method Matrix3D [^Matrix3D v ^java.io.Writer w]
   (.write w (.toString v)))
 
+(defmethod print-method Matrix4D [^Matrix4D v ^java.io.Writer w]
+  (.write w (.toString v)))
+
 (defmethod print-dup Matrix2D [^Matrix2D v ^java.io.Writer w]
   (.write w (.toString v)))
 
 (defmethod print-dup Matrix3D [^Matrix3D v ^java.io.Writer w]
+  (.write w (.toString v)))
+
+(defmethod print-dup Matrix4D [^Matrix4D v ^java.io.Writer w]
   (.write w (.toString v)))
