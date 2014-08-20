@@ -16,8 +16,8 @@
   (seq [_] (list (Vector2D. m00 m01) (Vector2D. m10 m11)))
 
   clojure.lang.ILookup
-  (valAt [v i]
-    (.valAt v i nil))
+  (valAt [m i]
+    (.valAt m i nil))
   (valAt [_ i not-found]
     (case (int i)
       0 (Vector2D. m00 m01)
@@ -25,8 +25,8 @@
       not-found))
 
   clojure.lang.IFn
-  (invoke [v i]
-    (.valAt v i))
+  (invoke [m i]
+    (.valAt m i))
 
   Object
   (toString [_]
@@ -37,69 +37,69 @@
         (add-hashcode m01)
         (add-hashcode m10)
         (add-hashcode m11)))
-  (equals [self v]
-    (or (identical? self v)
-        (and (instance? Matrix2D v)
-             (== m00 (.-m00 ^Matrix2D v))
-             (== m01 (.-m01 ^Matrix2D v))
-             (== m10 (.-m10 ^Matrix2D v))
-             (== m11 (.-m11 ^Matrix2D v)))
-        (and (counted? v)
-             (= (count v) 2)
-             (= (Vector2D. m00 m01) (v 0))
-             (= (Vector2D. m10 m11) (v 1))))))
+  (equals [self m]
+    (or (identical? self m)
+        (and (instance? Matrix2D m)
+             (== m00 (.-m00 ^Matrix2D m))
+             (== m01 (.-m01 ^Matrix2D m))
+             (== m10 (.-m10 ^Matrix2D m))
+             (== m11 (.-m11 ^Matrix2D m)))
+        (and (counted? m)
+             (= (count m) 2)
+             (= (Vector2D. m00 m01) (m 0))
+             (= (Vector2D. m10 m11) (m 1))))))
 
-(definterface Coords3D
-  (^double getX [])
-  (^double getY [])
-  (^double getZ []))
-
-(deftype Matrix3D [^double x ^double y ^double z]
-  Coords3D
-  (getX [_] x)
-  (getY [_] y)
-  (getZ [_] z)
-  
+(deftype Matrix3D [^double m00 ^double m01 ^double m02
+                   ^double m10 ^double m11 ^double m12
+                   ^double m20 ^double m21 ^double m22]
   clojure.lang.Counted
   (count [_] 3)
 
   clojure.lang.Sequential
 
   clojure.lang.Seqable
-  (seq [_] (list x y z))
+  (seq [_] (list (Vector3D. m00 m01 m02)
+                 (Vector3D. m10 m11 m12)
+                 (Vector3D. m20 m21 m22)))
 
   clojure.lang.ILookup
-  (valAt [v i]
-    (.valAt v i nil))
+  (valAt [m i]
+    (.valAt m i nil))
   (valAt [_ i not-found]
     (case (int i)
-      0 x
-      1 y
-      2 z
+      0 (Vector3D. m00 m01 m02)
+      1 (Vector3D. m10 m11 m12)
+      2 (Vector3D. m20 m21 m22)
       not-found))
 
   clojure.lang.IFn
-  (invoke [v i]
-    (.valAt v i))
+  (invoke [m i]
+    (.valAt m i))
 
   Object
   (toString [_]
-    (str "#math/matrix [" x " " y " " z "]"))
+    (str "#math/matrix " [m00 m01 m02 m10 m11 m12 m20 m21 m22]))
   (hashCode [_]
-    (-> 17 (add-hashcode x)
-           (add-hashcode y)
-           (add-hashcode z)))
-  (equals [self v]
-    (or (identical? self v)
-        (and (instance? Matrix3D v)
-             (= x (.-x ^Matrix3D v))
-             (= y (.-y ^Matrix3D v))
-             (= z (.-z ^Matrix3D v)))
-        (and (counted? v)
-             (= (count v) 3)
-             (= x (v 0))
-             (= y (v 1))
-             (= z (v 2))))))
+    (reduce add-hashcode 17 [m00 m01 m02 m10 m11 m12 m20 m21 m22]))
+  (equals [self m]
+    (or (identical? self m)
+        (and (instance? Matrix3D m)
+             (== m00 (.-m00 ^Matrix3D m))
+             (== m01 (.-m01 ^Matrix3D m))
+             (== m02 (.-m02 ^Matrix3D m))
+
+             (== m10 (.-m10 ^Matrix3D m))
+             (== m11 (.-m11 ^Matrix3D m))
+             (== m12 (.-m12 ^Matrix3D m))
+
+             (== m20 (.-m20 ^Matrix3D m))
+             (== m21 (.-m21 ^Matrix3D m))
+             (== m22 (.-m22 ^Matrix3D m)))
+        (and (counted? m)
+             (= (count m) 3)
+             (= (Vector3D. m00 m01 m02) (m 0))
+             (= (Vector3D. m10 m11 m12) (m 1))
+             (= (Vector3D. m20 m21 m22) (m 2))))))
 
 (deftype Matrix4D [^double x ^double y ^double z]
   clojure.lang.Counted
@@ -111,8 +111,8 @@
   (seq [_] (list x y z))
 
   clojure.lang.ILookup
-  (valAt [v i]
-    (.valAt v i nil))
+  (valAt [m i]
+    (.valAt m i nil))
   (valAt [_ i not-found]
     (case (int i)
       0 x
@@ -121,8 +121,8 @@
       not-found))
 
   clojure.lang.IFn
-  (invoke [v i]
-    (.valAt v i))
+  (invoke [m i]
+    (.valAt m i))
 
   Object
   (toString [_]
@@ -131,17 +131,13 @@
     (-> 17 (add-hashcode x)
            (add-hashcode y)
            (add-hashcode z)))
-  (equals [self v]
-    (or (identical? self v)
-        (and (instance? Matrix3D v)
-             (= x (.-x ^Matrix3D v))
-             (= y (.-y ^Matrix3D v))
-             (= z (.-z ^Matrix3D v)))
-        (and (counted? v)
-             (= (count v) 3)
-             (= x (v 0))
-             (= y (v 1))
-             (= z (v 2))))))
+  (equals [self m]
+    (or (identical? self m)
+        (and (instance? Matrix3D m)
+             )
+        (and (counted? m)
+             (= (count m) 3)
+             ))))
 
 (alter-meta! #'->Matrix2D assoc :no-doc true)
 (alter-meta! #'->Matrix3D assoc :no-doc true)
@@ -196,20 +192,17 @@
   [^Matrix2D m]
   `(Matrix2D. (.-m00 ~m) (.-m10 ~m) (.-m01 ~m) (.-m11 ~m)))
 
-(defn- add-3d [^Matrix3D m1 ^Matrix3D m2]
-  (Matrix3D. (+ (.getX m1) (.getX m2))
-             (+ (.getY m1) (.getY m2))
-             (+ (.getZ m1) (.getZ m2))))
+(definline ^:private add-3d
+  [^Matrix3D m1 ^Matrix3D m2]
+  )
 
-(defn- sub-3d [^Matrix3D m1 ^Matrix3D m2]
-  (Matrix3D. (- (.getX m1) (.getX m2))
-             (- (.getY m1) (.getY m2))
-             (- (.getZ m1) (.getZ m2))))
+(definline ^:private sub-3d
+  [^Matrix3D m1 ^Matrix3D m2]
+  )
 
-(defn- mult-3d [^Matrix3D m1 ^Matrix3D m2]
-  (Matrix3D. (* (.getX m1) (.getX m2))
-             (* (.getY m1) (.getY m2))
-             (* (.getZ m1) (.getZ m2))))
+(definline ^:private mult-3d
+  [^Matrix3D m1 ^Matrix3D m2]
+  )
 
 (definline ^:private negate-3d
   [^Matrix3D m]
@@ -387,12 +380,12 @@
   ([[^double m00 ^double m01 ^double m02]
     [^double m10 ^double m11 ^double m12]
     [^double m20 ^double m21 ^double m22]]
-     (Matrix3D. m00 m01 m02))
+     (Matrix3D. m00 m01 m02 m10 m11 m12 m20 m21 m22))
   ([[^double m00 ^double m01 ^double m02 ^double m03]
     [^double m10 ^double m11 ^double m12 ^double m13]
     [^double m20 ^double m21 ^double m22 ^double m23]
     [^double m30 ^double m31 ^double m32 ^double m33]]
-     (Matrix3D. m00 m01 m02)))
+     (Matrix3D. m00 m01 m02 m10 m11 m12 m20 m21 m22)))
 
 (defn into-matrix [coll]
   "Turn a collection of numbers into a math matrix."
