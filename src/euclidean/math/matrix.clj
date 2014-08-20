@@ -521,29 +521,100 @@
 (defn transform
   "Transforms the input vector by the input matrix."
   [^Matrix4D m ^Vector4D v]
-  (Vector4D. (+ (* (.-m00 m) (.getX v))
-                (* (.-m01 m) (.getY v))
-                (* (.-m02 m) (.getZ v))
-                (* (.-m03 m) (.getW v)))
+  (Vector4D. (+ (* (.-m00 m) (.getX v)) (* (.-m01 m) (.getY v))
+                (* (.-m02 m) (.getZ v)) (* (.-m03 m) (.getW v)))
              
-             (+ (* (.-m10 m) (.getX v))
-                (* (.-m11 m) (.getY v))
-                (* (.-m12 m) (.getZ v))
-                (* (.-m13 m) (.getW v)))
+             (+ (* (.-m10 m) (.getX v)) (* (.-m11 m) (.getY v))
+                (* (.-m12 m) (.getZ v)) (* (.-m13 m) (.getW v)))
              
-             (+ (* (.-m20 m) (.getX v))
-                (* (.-m21 m) (.getY v))
-                (* (.-m22 m) (.getZ v))
-                (* (.-m23 m) (.getW v)))
+             (+ (* (.-m20 m) (.getX v)) (* (.-m21 m) (.getY v))
+                (* (.-m22 m) (.getZ v)) (* (.-m23 m) (.getW v)))
              
-             (+ (* (.-m30 m) (.getX v))
-                (* (.-m31 m) (.getY v))
-                (* (.-m32 m) (.getZ v))
-                (* (.-m33 m) (.getW v)))))
+             (+ (* (.-m30 m) (.getX v)) (* (.-m31 m) (.getY v))
+                (* (.-m32 m) (.getZ v)) (* (.-m33 m) (.getW v)))))
+
+(defn rotate-x
+  ([^double angle]
+     (let [angle (Math/toRadians angle)
+           cosine (Math/cos angle)
+           sine (Math/sin angle)]
+       (Matrix4D. 1.0 0.0 0.0 0.0
+                  0.0 cosine (- sine) 0.0
+                  0.0 sine cosine 0.0
+                  0.0 0.0 0.0 1.0)))
+  ([mat ^double angle]
+     (mult mat (rotate-x angle))))
+
+(defn rotate-y
+  ([^double angle]
+     (let [angle (Math/toRadians angle)
+           cosine (Math/cos angle)
+           sine (Math/sin angle)]
+       (Matrix4D. cosine 0.0 sine 0.0
+                  0.0 1.0 0.0 0.0
+                  (- sine) 0.0 cosine 0.0
+                  0.0 0.0 0.0 1.0)))
+  ([mat ^double angle]
+     (mult mat (rotate-y angle))))
+
+(defn rotate-z
+  ([^double angle]
+     (let [angle (Math/toRadians angle)
+           cosine (Math/cos angle)
+           sine (Math/sin angle)]
+       (Matrix4D. cosine (- sine) 0.0 0.0
+                  sine cosine 0.0 0.0
+                  0.0 0.0 1.0 0.0
+                  0.0 0.0 0.0 1.0)))
+  ([mat ^double angle]
+     (mult mat (rotate-z angle))))
 
 (defn rotate
-  [m angle axis]
-  )
+  [^Matrix4D m ^double angle ^Vector3D [x y z :as axis]]
+  (let [angle (Math/toRadians angle)
+        cosine (Math/cos angle)
+        sine (Math/sin angle)
+        icosine (- 1.0 cosine)
+
+        xy (* x y)
+        yz (* y z)
+        xz (* x z)
+        
+        xs (* x sine)
+        ys (* y sine)
+        zs (* z sine)
+
+        f00 (+ (* x x icosine) cosine)
+        f01 (+ (* xy icosine) zs)
+        f02 (- (* xz icosine) ys)
+
+        f10 (- (* xy icosine) zs)
+        f11 (+ (* y y icosine) cosine)
+        f12 (+ (* yz icosine) xs)
+
+        f20 (+ (* xz icosine) ys)
+        f21 (- (* yz icosine) xs)
+        f22 (+ (* x x icosine) cosine)
+
+        t00 (+ (* (.-m00 m) f00) (* (.-m01 m) f01) (* (.-m02 m) f02))
+        t01 (+ (* (.-m10 m) f00) (* (.-m11 m) f01) (* (.-m12 m) f02))
+        t02 (+ (* (.-m20 m) f00) (* (.-m21 m) f01) (* (.-m22 m) f02))
+        t03 (+ (* (.-m30 m) f00) (* (.-m31 m) f01) (* (.-m32 m) f02))
+
+        t10 (+ (* (.-m00 m) f10) (* (.-m01 m) f11) (* (.-m02 m) f12))
+        t11 (+ (* (.-m10 m) f10) (* (.-m11 m) f11) (* (.-m12 m) f12))
+        t12 (+ (* (.-m20 m) f10) (* (.-m21 m) f11) (* (.-m22 m) f12))
+        t13 (+ (* (.-m30 m) f10) (* (.-m31 m) f11) (* (.-m32 m) f12))
+
+        t20 (+ (* (.-m00 m) f20) (* (.-m01 m) f21) (* (.-m02 m) f22))
+        t21 (+ (* (.-m10 m) f20) (* (.-m11 m) f21) (* (.-m12 m) f22))
+        t22 (+ (* (.-m20 m) f20) (* (.-m21 m) f21) (* (.-m22 m) f22))
+        t23 (+ (* (.-m30 m) f20) (* (.-m31 m) f21) (* (.-m32 m) f22))]
+    
+    (Matrix4D. t00 t10 t20 0.0
+               t01 t11 t21 0.0
+               t02 t12 t22 0.0
+               t03 t13 t23 1.0)))
 
 (defn mat2
   ([] identity-mat2)
