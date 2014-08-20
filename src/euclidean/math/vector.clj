@@ -25,7 +25,7 @@
   (valAt [v i]
     (.valAt v i nil))
   (valAt [_ i not-found]
-    (case i 0 x 1 y not-found))
+    (case (int i) 0 x 1 y not-found))
 
   clojure.lang.IFn
   (invoke [v i]
@@ -70,7 +70,7 @@
   (valAt [v i]
     (.valAt v i nil))
   (valAt [_ i not-found]
-    (case i 0 x 1 y 2 z not-found))
+    (case (int i) 0 x 1 y 2 z not-found))
 
   clojure.lang.IFn
   (invoke [v i]

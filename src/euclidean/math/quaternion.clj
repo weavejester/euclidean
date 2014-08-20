@@ -31,7 +31,7 @@
   (valAt [q i]
     (.valAt q i nil))
   (valAt [_ i not-found]
-    (case i 0 x 1 y 2 z 3 w not-found))
+    (case (int i) 0 x 1 y 2 z 3 w not-found))
 
   clojure.lang.IFn
   (invoke [q i]
