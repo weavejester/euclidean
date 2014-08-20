@@ -7,6 +7,9 @@
   :plugins [[codox "0.6.4"]]  
   :profiles
   {:dev {:dependencies [[org.clojure/clojure "1.6.0"]
+                        [org.clojure/test.check "0.5.9"]
+                        [org.lwjgl.lwjgl/lwjgl "2.9.1"]
+                        [org.lwjgl.lwjgl/lwjgl_util "2.9.1"]
                         [criterium "0.4.2"]]
          :jvm-opts ^:replace []
          :global-vars {*warn-on-reflection* true}}

@@ -1,5 +1,6 @@
 (ns euclidean.math.vector
-  (:refer-clojure :exclude [vector]))
+  (:refer-clojure :exclude [vector])
+  (:import (euclidean.math.matrix Matrix4D)))
 
 (defn- add-hashcode [hash x]
   (+ hash (* 37 hash) (Float/floatToIntBits x)))
@@ -17,6 +18,20 @@
   (count [_] 2)
 
   clojure.lang.Sequential
+
+  clojure.lang.Associative
+  (containsKey [_ k]
+    (case (int k)
+      (0 1) true
+      false))
+  (entryAt [_ k]
+    (case (int k)
+      0 (clojure.lang.MapEntry. 0 x)
+      1 (clojure.lang.MapEntry. 1 y)))
+  (assoc [_ i v]
+    (case (int i)
+      0 (Vector2D. v y)
+      1 (Vector2D. x v)))
 
   clojure.lang.Seqable
   (seq [_] (list x y))
@@ -40,12 +55,12 @@
   (equals [self v]
     (or (identical? self v)
         (and (instance? Vector2D v)
-             (= x (.getX ^Vector2D v))
-             (= y (.getY ^Vector2D v)))
+             (== x (.getX ^Vector2D v))
+             (== y (.getY ^Vector2D v)))
         (and (counted? v)
-             (= (count v) 2)
-             (= x (v 0))
-             (= y (v 1))))))
+             (== (count v) 2)
+             (== x (v 0))
+             (== y (v 1))))))
 
 (definterface Coords3D
   (^double getX [])
@@ -72,6 +87,22 @@
   (valAt [_ i not-found]
     (case (int i) 0 x 1 y 2 z not-found))
 
+  clojure.lang.Associative
+  (containsKey [_ k]
+    (case (int k)
+      (0 1 2) true
+      false))
+  (entryAt [_ k]
+    (case (int k)
+      0 (clojure.lang.MapEntry. 0 x)
+      1 (clojure.lang.MapEntry. 1 y)
+      2 (clojure.lang.MapEntry. 2 z)))
+  (assoc [_ i v]
+    (case (int i)
+      0 (Vector3D. v y z)
+      1 (Vector3D. x v z)
+      2 (Vector3D. x y v)))
+
   clojure.lang.IFn
   (invoke [v i]
     (.valAt v i))
@@ -86,14 +117,14 @@
   (equals [self v]
     (or (identical? self v)
         (and (instance? Vector3D v)
-             (= x (.getX ^Vector3D v))
-             (= y (.getY ^Vector3D v))
-             (= z (.getZ ^Vector3D v)))
+             (== x (.getX ^Vector3D v))
+             (== y (.getY ^Vector3D v))
+             (== z (.getZ ^Vector3D v)))
         (and (counted? v)
-             (= (count v) 3)
-             (= x (v 0))
-             (= y (v 1))
-             (= z (v 2))))))
+             (== (count v) 3)
+             (== x (v 0))
+             (== y (v 1))
+             (== z (v 2))))))
 
 (definterface Coords4D
   (^double getX [])
@@ -121,6 +152,24 @@
     (.valAt v i nil))
   (valAt [_ i not-found]
     (case (int i) 0 x 1 y 2 z 3 w not-found))
+
+  clojure.lang.Associative
+  (containsKey [_ k]
+    (case (int k)
+      (0 1 2 3) true
+      false))
+  (entryAt [_ k]
+    (case (int k)
+      0 (clojure.lang.MapEntry. 0 x)
+      1 (clojure.lang.MapEntry. 1 y)
+      2 (clojure.lang.MapEntry. 2 z)
+      3 (clojure.lang.MapEntry. 3 w)))
+  (assoc [_ i v]
+    (case (int i)
+      0 (Vector4D. v y z w)
+      1 (Vector4D. x v z w)
+      2 (Vector4D. x y v w)
+      3 (Vector4D. x y z v)))
 
   clojure.lang.IFn
   (invoke [v i]
@@ -378,8 +427,14 @@
 (defmethod print-method Vector3D [^Vector3D v ^java.io.Writer w]
   (.write w (.toString v)))
 
+(defmethod print-method Vector4D [^Vector4D v ^java.io.Writer w]
+  (.write w (.toString v)))
+
 (defmethod print-dup Vector2D [^Vector2D v ^java.io.Writer w]
   (.write w (.toString v)))
 
 (defmethod print-dup Vector3D [^Vector3D v ^java.io.Writer w]
+  (.write w (.toString v)))
+
+(defmethod print-dup Vector4D [^Vector4D v ^java.io.Writer w]
   (.write w (.toString v)))
