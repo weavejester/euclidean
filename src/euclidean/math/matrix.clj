@@ -633,6 +633,8 @@
 (defn mat2
   "Creates a new Matrix2D."
   ([] identity-mat2)
+  ([[[m00 m01] [m10 m11]]]
+     (Matrix2D. m00 m01 m10 m11))
   ([[m00 m01] [m10 m11]]
      (Matrix2D. m00 m01 m10 m11))
   ([m00 m01 m10 m11]
@@ -641,6 +643,8 @@
 (defn mat3
   "Creates a new Matrix3D."
   ([] identity-mat3)
+  ([[[m00 m01 m02] [m10 m11 m12] [m20 m21 m22]]]
+     (Matrix3D. m00 m01 m02 m10 m11 m12 m20 m21 m22))
   ([[m00 m01 m02] [m10 m11 m12] [m20 m21 m22]]
      (Matrix3D. m00 m01 m02 m10 m11 m12 m20 m21 m22))
   ([m00 m01 m02 m10 m11 m12 m20 m21 m22]
@@ -649,6 +653,9 @@
 (defn mat4
   "Creates a new Matrix4D."
   ([] identity-mat4)
+  ([[[m00 m01 m02 m03] [m10 m11 m12 m13] [m20 m21 m22 m23] [m30 m31 m32 m33]]]
+     (Matrix4D. m00 m01 m02 m03 m10 m11 m12 m13
+                m20 m21 m22 m23 m30 m31 m32 m33))
   ([[m00 m01 m02 m03] [m10 m11 m12 m13] [m20 m21 m22 m23] [m30 m31 m32 m33]]
      (Matrix4D. m00 m01 m02 m03 m10 m11 m12 m13
                 m20 m21 m22 m23 m30 m31 m32 m33))
