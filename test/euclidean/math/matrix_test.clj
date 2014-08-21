@@ -7,7 +7,7 @@
             [euclidean.math.matrix :as m]
             [euclidean.math.vector :as v]
             [euclidean.test.util :refer [approx=]]
-            [criterium.core :refer [quick-bench]])
+            [criterium.core :refer [quick-bench with-progress-reporting]])
   (:import (org.lwjgl.util.vector Matrix Matrix2f Matrix3f Matrix4f)
            (org.lwjgl.util.vector Vector2f Vector3f Vector4f)
            (euclidean.math.matrix Matrix2D Matrix3D Matrix4D)
@@ -166,3 +166,48 @@
           axis (v/vector (.-x axis') (.-y axis') (.-z axis'))]
       (is (approx= (.rotate ^Matrix4f m' (Math/toRadians angle) axis')
                    (m/rotate m angle axis))))))
+
+(defn benchmark-add
+  []
+  (with-progress-reporting
+    (let [[m1 m1'] (last (gen/sample gen-matrices))]
+      (let [[m2 m2'] (last (gen/sample (gen-matrix (count m1))))]
+        (quick-bench (m/add m1 m2))
+        (quick-bench (lwjgl-add m1' m2'))))))
+
+(defn benchmark-sub
+  []
+  (with-progress-reporting
+    (let [[m1 m1'] (last (gen/sample gen-matrices))]
+      (let [[m2 m2'] (last (gen/sample (gen-matrix (count m1))))]
+        (quick-bench (m/sub m1 m2))
+        (quick-bench (lwjgl-sub m1' m2'))))))
+
+(defn benchmark-mult
+  []
+  (with-progress-reporting
+    (let [[m1 m1'] (last (gen/sample gen-matrices))]
+      (let [[m2 m2'] (last (gen/sample (gen-matrix (count m1))))]
+        (quick-bench (m/mult m1 m2))
+        (quick-bench (lwjgl-mult m1' m2'))))))
+
+(defn benchmark-invert
+  []
+  (with-progress-reporting
+    (let [[m m'] (last (gen/sample gen-matrices))]
+      (quick-bench (m/invert m))
+      (quick-bench (lwjgl-invert m')))))
+
+(defn benchmark-determinant
+  []
+  (with-progress-reporting
+    (let [[m m'] (last (gen/sample gen-matrices))]
+      (quick-bench (m/determinant m))
+      (quick-bench (.determinant ^Matrix m')))))
+
+(defn benchmark-transpose
+  []
+  (with-progress-reporting
+    (let [[m m'] (last (gen/sample gen-matrices))]
+      (quick-bench (m/transpose m))
+      (quick-bench (lwjgl-transpose m')))))

@@ -6,10 +6,10 @@
   (^:no-doc add* [m1 m2] "Add two matrices together.")
   (^:no-doc sub* [m1 m2] "Subtract the second matrix from the first.")
   (^:no-doc mult* [m1 m2] "Multiply one matrix by another.")
-  (^:no-doc negate [m] "Negates each component of the input matrix.")
-  (^:no-doc invert [m] "Inverts the input matrix.")
+  (negate [m] "Negates each component of the input matrix.")
+  (invert [m] "Inverts the input matrix.")
   (^double determinant [m] "Returns the determinant of the input matrix.")
-  (^:no-doc transpose [m] "Returns the transpose of the input matrix."))
+  (transpose [m] "Returns the transpose of the input matrix."))
 
 (defprotocol AdditiveIdentity
   (add-identity [x] "Returns the additive identity of the input."))
@@ -544,6 +544,7 @@
                 (* (.-m32 m) (.getZ v)) (* (.-m33 m) (.getW v)))))
 
 (defn rotate-x
+  "Returns a rotation matrix for the given angle."
   ([angle]
      (let [angle (Math/toRadians angle)
            cosine (Math/cos angle)
@@ -556,6 +557,7 @@
      (mult mat (rotate-x angle))))
 
 (defn rotate-y
+  "Returns a rotation matrix for the given angle."
   ([angle]
      (let [angle (Math/toRadians angle)
            cosine (Math/cos angle)
@@ -568,6 +570,7 @@
      (mult mat (rotate-y angle))))
 
 (defn rotate-z
+  "Returns a rotation matrix for the given angle."
   ([angle]
      (let [angle (Math/toRadians angle)
            cosine (Math/cos angle)
@@ -580,6 +583,7 @@
      (mult mat (rotate-z angle))))
 
 (defn rotate
+  "Rotate a matrix given an angle and axis of rotation."
   [^Matrix4D m angle ^Vector3D [x y z :as axis]]
   (let [angle (Math/toRadians angle)
         cosine (Math/cos angle)
@@ -627,6 +631,7 @@
                t30 t31 t32 (.-m33 m))))
 
 (defn mat2
+  "Creates a new Matrix2D."
   ([] identity-mat2)
   ([[m00 m01] [m10 m11]]
      (Matrix2D. m00 m01 m10 m11))
@@ -634,6 +639,7 @@
      (Matrix2D. m00 m01 m10 m11)))
 
 (defn mat3
+  "Creates a new Matrix3D."
   ([] identity-mat3)
   ([[m00 m01 m02] [m10 m11 m12] [m20 m21 m22]]
      (Matrix3D. m00 m01 m02 m10 m11 m12 m20 m21 m22))
@@ -641,6 +647,7 @@
      (Matrix3D. m00 m01 m02 m10 m11 m12 m20 m21 m22)))
 
 (defn mat4
+  "Creates a new Matrix4D."
   ([] identity-mat4)
   ([[m00 m01 m02 m03] [m10 m11 m12 m13] [m20 m21 m22 m23] [m30 m31 m32 m33]]
      (Matrix4D. m00 m01 m02 m03 m10 m11 m12 m13
@@ -650,7 +657,7 @@
                 m20 m21 m22 m23 m30 m31 m32 m33)))
 
 (defn matrix
-  "Create a new 2D, 3D, or 4D matrix."
+  "Creates a new 2D, 3D, or 4D matrix."
   ([[m00 m01] [m10 m11]]
      (Matrix2D. m00 m01
                 m10 m11))
