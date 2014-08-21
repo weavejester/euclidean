@@ -1,6 +1,5 @@
 (ns euclidean.math.vector
-  (:refer-clojure :exclude [vector])
-  (:import (euclidean.math.matrix Matrix4D)))
+  (:refer-clojure :exclude [vector]))
 
 (defn- add-hashcode [hash x]
   (+ hash (* 37 hash) (Float/floatToIntBits x)))
@@ -20,6 +19,7 @@
   clojure.lang.Sequential
 
   clojure.lang.Associative
+  (equiv [v o] (.equals v o))
   (containsKey [_ k]
     (case (int k)
       (0 1) true
@@ -51,7 +51,7 @@
     (str "#math/vector [" x " " y "]"))
   (hashCode [_]
     (-> 17 (add-hashcode x)
-           (add-hashcode y)))
+        (add-hashcode y)))
   (equals [self v]
     (or (identical? self v)
         (and (instance? Vector2D v)
@@ -88,6 +88,7 @@
     (case (int i) 0 x 1 y 2 z not-found))
 
   clojure.lang.Associative
+  (equiv [v o] (.equals v o))
   (containsKey [_ k]
     (case (int k)
       (0 1 2) true
@@ -154,6 +155,7 @@
     (case (int i) 0 x 1 y 2 z 3 w not-found))
 
   clojure.lang.Associative
+  (equiv [v o] (.equals v o))
   (containsKey [_ k]
     (case (int k)
       (0 1 2 3) true
