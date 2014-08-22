@@ -31,7 +31,7 @@
   (valAt [q i]
     (.valAt q i nil))
   (valAt [_ i not-found]
-    (case i 0 x 1 y 2 z 3 w not-found))
+    (case (int i) 0 x 1 y 2 z 3 w not-found))
 
   clojure.lang.IFn
   (invoke [q i]
@@ -52,7 +52,8 @@
              (= y (.getY ^Quaternion q))
              (= z (.getZ ^Quaternion q))
              (= w (.getW ^Quaternion q)))
-        (and (= (count q) 4)
+        (and (counted? q)
+             (= (count q) 4)
              (= x (q 0))
              (= y (q 1))
              (= z (q 2))
