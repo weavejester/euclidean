@@ -584,11 +584,15 @@
 
 (defn rotate
   "Rotate a matrix given an angle and axis of rotation."
-  [^Matrix4D m angle ^Vector3D [x y z :as axis]]
+  [^Matrix4D m angle ^Vector3D axis]
   (let [angle (Math/toRadians angle)
         cosine (Math/cos angle)
         sine (Math/sin angle)
         icosine (- 1.0 cosine)
+        
+        x (.getX axis)
+        y (.getY axis)
+        z (.getZ axis)
 
         xy (* x y)
         yz (* y z)
@@ -633,50 +637,43 @@
 (defn mat2
   "Creates a new Matrix2D."
   ([] identity-mat2)
-  ([[[m00 m01] [m10 m11]]]
-     (Matrix2D. m00 m01 m10 m11))
-  ([[m00 m01] [m10 m11]]
-     (Matrix2D. m00 m01 m10 m11))
+  ([m] (apply mat2 m))
+  ([v1 v2]
+     (Matrix2D. (v1 0) (v1 1) (v2 0) (v2 1)))
   ([m00 m01 m10 m11]
      (Matrix2D. m00 m01 m10 m11)))
 
 (defn mat3
   "Creates a new Matrix3D."
   ([] identity-mat3)
-  ([[[m00 m01 m02] [m10 m11 m12] [m20 m21 m22]]]
-     (Matrix3D. m00 m01 m02 m10 m11 m12 m20 m21 m22))
-  ([[m00 m01 m02] [m10 m11 m12] [m20 m21 m22]]
-     (Matrix3D. m00 m01 m02 m10 m11 m12 m20 m21 m22))
+  ([m] (apply mat3 m))
+  ([v1 v2 v3]
+     (Matrix3D. (v1 0) (v1 1) (v1 2)
+                (v2 0) (v2 1) (v2 2)
+                (v3 0) (v3 1) (v3 2)))
   ([m00 m01 m02 m10 m11 m12 m20 m21 m22]
      (Matrix3D. m00 m01 m02 m10 m11 m12 m20 m21 m22)))
 
 (defn mat4
   "Creates a new Matrix4D."
   ([] identity-mat4)
-  ([[[m00 m01 m02 m03] [m10 m11 m12 m13] [m20 m21 m22 m23] [m30 m31 m32 m33]]]
-     (Matrix4D. m00 m01 m02 m03 m10 m11 m12 m13
-                m20 m21 m22 m23 m30 m31 m32 m33))
-  ([[m00 m01 m02 m03] [m10 m11 m12 m13] [m20 m21 m22 m23] [m30 m31 m32 m33]]
-     (Matrix4D. m00 m01 m02 m03 m10 m11 m12 m13
-                m20 m21 m22 m23 m30 m31 m32 m33))
+  ([m] (apply mat4 m))
+  ([v1 v2 v3 v4]
+     (Matrix4D. (v1 0) (v1 1) (v1 2) (v1 3)
+                (v2 0) (v2 1) (v2 2) (v2 3)
+                (v3 0) (v3 1) (v3 2) (v3 3)
+                (v4 0) (v4 1) (v4 2) (v4 3)))
   ([m00 m01 m02 m03 m10 m11 m12 m13 m20 m21 m22 m23 m30 m31 m32 m33]
-     (Matrix4D. m00 m01 m02 m03 m10 m11 m12 m13
-                m20 m21 m22 m23 m30 m31 m32 m33)))
-
-(defn matrix
-  "Creates a new 2D, 3D, or 4D matrix."
-  ([[m00 m01] [m10 m11]]
-     (Matrix2D. m00 m01
-                m10 m11))
-  ([[m00 m01 m02] [m10 m11 m12] [m20 m21 m22]]
-     (Matrix3D. m00 m01 m02
-                m10 m11 m12
-                m20 m21 m22))
-  ([[m00 m01 m02 m03] [m10 m11 m12 m13] [m20 m21 m22 m23] [m30 m31 m32 m33]]
      (Matrix4D. m00 m01 m02 m03
                 m10 m11 m12 m13
                 m20 m21 m22 m23
                 m30 m31 m32 m33)))
+
+(defn matrix
+  "Creates a new 2D, 3D, or 4D matrix."
+  ([v1 v2] (mat2 v1 v2))
+  ([v1 v2 v3] (mat3 v1 v2 v3))
+  ([v1 v2 v3 v4] (mat4 v1 v2 v3 v4)))
 
 (defn into-matrix [coll]
   "Turn a collection of numbers into a math matrix."
