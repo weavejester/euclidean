@@ -425,29 +425,26 @@
              0.0 0.0 1.0 0.0
              0.0 0.0 0.0 1.0))
 
-(extend Matrix2D
+(extend-type Matrix2D
   AdditiveIdentity
-  {:add-identity (fn [_] (Matrix2D. 0.0 0.0 0.0 0.0))}
-
+  (add-identity [_] (Matrix2D. 0.0 0.0 0.0 0.0))
   MultiplicativeIdentity
-  {:mult-identity (fn [_] identity-mat2)})
+  (mult-identity [_] identity-mat2))
 
-(extend Matrix3D
+(extend-type Matrix3D
   AdditiveIdentity
-  {:add-identity (fn [_] (Matrix3D. 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0))}
-
+  (add-identity [_] (Matrix3D. 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0))
   MultiplicativeIdentity
-  {:mult-identity (fn [_] identity-mat3)})
+  (mult-identity [_] identity-mat3))
 
-(extend Matrix4D
+(extend-type Matrix4D
   AdditiveIdentity
-  {:add-identity (fn [_] (Matrix4D. 0.0 0.0 0.0 0.0
-                                    0.0 0.0 0.0 0.0
-                                    0.0 0.0 0.0 0.0
-                                    0.0 0.0 0.0 0.0))}
-
+  (add-identity [_] (Matrix4D. 0.0 0.0 0.0 0.0
+                               0.0 0.0 0.0 0.0
+                               0.0 0.0 0.0 0.0
+                               0.0 0.0 0.0 0.0))
   MultiplicativeIdentity
-  {:mult-identity (fn [_] identity-mat4)})
+  (mult-identity [_] identity-mat4))
 
 (extend-protocol TranslateBy
   Vector2D
