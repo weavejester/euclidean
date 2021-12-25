@@ -118,8 +118,9 @@
   [^double angle]
   (from-angle-normal-axis angle (Vector3D. 0 0 1)))
 
-(defn norm
-  "Compute the norm of the quaternion."
+(defn norm-squared
+  "Compute the square norm of the quaternion, equal to the sum of the squares
+   of each of the quaternion `q`'s coefficients."
   [^Quaternion q]
   (let [x (.getX q)
         y (.getY q)
@@ -130,7 +131,7 @@
 (defn axes
   "Return the three axes of the quaternion."
   [^Quaternion q]
-  (let [n  (norm q),  s  (if (> n 0) (/ 2.0 n) 0.0)
+  (let [n  (norm-squared q),  s  (if (> n 0) (/ 2.0 n) 0.0)
         x  (.getX q), y  (.getY q), z  (.getZ q), w  (.getW q)
         xs (* x s),   ys (* y s),   zs (* z s),   ws (* w s)
         xx (* x xs),  xy (* x ys),  xz (* x zs),  xw (* x ws)
